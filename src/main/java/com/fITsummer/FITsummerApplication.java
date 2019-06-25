@@ -9,5 +9,4 @@ public class FITsummerApplication {
 	public static void main(String[] args) {
 		SpringApplication.run(FITsummerApplication.class, args);
 	}
-
 }
