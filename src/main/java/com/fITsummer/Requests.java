@@ -1,7 +1,19 @@
 package com.fITsummer;
 
 public class Requests {
-     //   this.epoch = System.currentTimeMillis(); //get the current time
 
-    // datu pieprasīšana no googles
+    final int DURATION_MILLIS = 86400000;
+
+
+    //create request for Google
+    public void createRequest() {
+
+    }
+
+
+    //parse received data
+    public void parseReceivedData(String info) {
+
+    }
+
 }
