@@ -1,22 +1,32 @@
 package com.fITsummer;
 
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+
+@org.springframework.stereotype.Controller
 public class Controller {
 
     public static User user;
 
-
-    public static boolean onLoginButtonClick(String username, String password) {
-        if (Database.userExists(username) & Database.userPwdCorrect(username, password)) {
-            user = new User(username, password);
+    @PostMapping(value = "/login")
+    public boolean onLoginButtonClick(@RequestBody UserLogin userdata) {
+        if (Database.userExists(userdata.getUsername()) & Database.userPwdCorrect(userdata.getUsername(), userdata.getPassword())) {
+            user = new User(userdata.getUsername(), userdata.getPassword());
             user.getTokensFromDb();
             user.setEpoch();
             return true;
         } else return false;
     }
 
-    public static boolean onRegisterButtonClick(String username, String password) {
-        if (Database.userExists(username) == false) {
-            Database.registerNewUser(username, password);
+    @GetMapping("/")
+    public String home() {
+        return "home";
+    }
+
+    public static boolean onRegisterButtonClick(UserLogin userdata) {
+        if (Database.userExists(userdata.getUsername()) == false) {
+            Database.registerNewUser(userdata.getUsername(), userdata.getPassword());
             return true;
         } else return false;
     }
@@ -27,9 +37,6 @@ public class Controller {
         Database.setRefreshToken(user.getUsername(), refreshToken);
         Database.setAccessToken(user.getUsername(), accessToken);
     }
-
-
-
 
 
     //	reģistrēt lietotāju + reģistrēt datubāzē
