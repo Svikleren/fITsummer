@@ -78,7 +78,7 @@
               <span id="message"></span>
             </div>
           </div>
-          <br /><br />
+          <!-- <br /><br />
           <label for="country">Country:</label><br />
           <select id="Country" name="country">
             <option> </option>
@@ -88,11 +88,11 @@
           ><br /><br />
           <input type="checkbox" id="terms" name="legal" />
 
-          <label for="terms">Agree</label><br /><br />
+          <label for="terms">Agree</label><br /><br /> -->
 
-          <input id="but" type="submit" value="Submit" />
+          <input id="but" type="submit" value="Register" />
         </form>
-      </form>
+
     </div>
     <hr />
     <script>
@@ -106,10 +106,44 @@
             .html("Not Matching")
             .css("color", "red");
       });
+
+var name = "";
+var password = "";
+var data = {content:name, content1:password , done: false};
+$.post("localhost:8080/login", data, function(){
+loadData();
+});
+$.ajax({
+    url:'localhost:8080/login',
+    type:"POST",
+    data:JSON.stringify(data), //this is serilizacija, server doesnt understand objects, have to send data to server as string
+    contentType:"application/json;charset-utf-8",
+    dataType:"json",
+    success:function(){
+        loadData();
+    }
+});
+
+// function onClick(data){
+
+// var usr= data;//1. Get data from username input
+// var pssw = data;//2. get data from passwrd
+
+// const data = {
+//     user:usr,
+//     passwrd:pssw
+// }
+
+// $("#user, #password).post("localhost:8080/login",data, onLoginResult());
+// }
+
+// function onLoginResult(data,status){
+
+
     </script>
   </body>
 </html>
-
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
 <script
   src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
   integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
