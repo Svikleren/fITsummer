@@ -1,15 +1,44 @@
 package com.fITsummer;
 
-import java.sql.Connection;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import java.sql.*;
+
 
 public class Database {
-    Connection conn;
+    public static Logger logger = LoggerFactory.getLogger(Database.class);
+
+    Statement statement;
     String username;
 
-    //return true if inputed username exists in database
-    public static boolean userExists(String username) {
+    protected static Connection conn = null;
+    private final static String DB_URL = "jdbc:mysql://127.0.0.1:3306/?autoReconnect=true&useSSL=false&characterEncoding=utf8&serverTimezone=GMT ";
+    private final static String USER = "root";
+    private final static String PASS = "Student007";
+    private PreparedStatement preparedStatement = null;
 
-        return false;
+    public Database() {
+//        logger.info("test printing");
+
+        try {
+            conn = DriverManager.getConnection(DB_URL, USER, PASS);
+            conn.setAutoCommit(false);
+        } catch (
+                SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public static boolean userExists(String username) throws SQLException {
+        Statement statement;
+        statement = conn.createStatement();
+        String q = "SELECT * FROM fITsummer.user_info WHERE username like " + username;
+        ResultSet rs = statement.executeQuery(q);
+        if (rs.next()) {
+            return true;
+        } else
+            return false;
     }
 
     //return true if combination username+password is correct
