@@ -1,19 +1,28 @@
 package com.fITsummer;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+
+import javax.xml.crypto.Data;
+import java.sql.SQLException;
 
 @org.springframework.stereotype.Controller
 public class Controller {
 
     public static User user;
+    @Autowired
+    public Database database;
 
     @PostMapping(value = "/login")
-    public boolean onLoginButtonClick(@RequestBody UserLogin userdata) {
-        if (Database.userExists(userdata.getUsername()) & Database.userPwdCorrect(userdata.getUsername(), userdata.getPassword())) {
+    public boolean onLoginButtonClick(@RequestBody UserLogin userdata) throws SQLException {
+        if (database.userExists(userdata.getUsername()) & database.userPwdCorrect(userdata.getUsername(), userdata.getPassword())) {
             user = new User(userdata.getUsername(), userdata.getPassword());
-            user.getTokensFromDb();
+//
+//      TODO salabot, lai padod tokenus
+//            user.getTokensFromDb();
+
             user.setEpoch();
             return true;
         } else return false;
@@ -24,18 +33,18 @@ public class Controller {
         return "home";
     }
 
-    public static boolean onRegisterButtonClick(UserLogin userdata) {
-        if (Database.userExists(userdata.getUsername()) == false) {
-            Database.registerNewUser(userdata.getUsername(), userdata.getPassword());
+    public boolean onRegisterButtonClick(UserLogin userdata) throws SQLException {
+        if (database.userExists(userdata.getUsername()) == false) {
+            database.registerNewUser(userdata.getUsername(), userdata.getPassword());
             return true;
         } else return false;
     }
 
-    public static void onSetTokensButtonClick(String refreshToken, String accessToken) {
+    public  void onSetTokensButtonClick(String refreshToken, String accessToken) {
         user.setRefreshToken(refreshToken);
         user.setAccessToken(accessToken);
-        Database.setRefreshToken(user.getUsername(), refreshToken);
-        Database.setAccessToken(user.getUsername(), accessToken);
+        database.setRefreshToken(user.getUsername(), refreshToken);
+        database.setAccessToken(user.getUsername(), accessToken);
     }
 
 

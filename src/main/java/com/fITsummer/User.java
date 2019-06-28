@@ -1,11 +1,14 @@
 package com.fITsummer;
 
+import org.springframework.beans.factory.annotation.Autowired;
+
 public class User {
     private String username;
     private String password;
     private String refreshToken;
     private String accessToken;
     private long epoch;
+
 
     public User(String login, String password) {
         this.username = login; //store login
@@ -16,11 +19,13 @@ public class User {
         return username;
     }
 
-    //get all tokens for current instance of class User from database
-    public void getTokensFromDb() {
-        setRefreshToken(Database.getRefreshToken(this.username));
-        setAccessToken(Database.getAccessToken(this.username));
-    }
+    //Šī metode teorētiski nav vajadzīga. -J
+    // get all tokens for current instance of class User from database
+//    public void getTokensFromDb() {
+//        setRefreshToken(Database.getRefreshToken(this.username));
+//        setAccessToken(Database.getAccessToken(this.username));
+//    }
+
 
 
     //static void to get current epoch
