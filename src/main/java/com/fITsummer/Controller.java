@@ -43,8 +43,8 @@ public class Controller {
     public  void onSetTokensButtonClick(String refreshToken, String accessToken) {
         user.setRefreshToken(refreshToken);
         user.setAccessToken(accessToken);
-        database.setRefreshToken(user.getUsername(), refreshToken);
-        database.setAccessToken(user.getUsername(), accessToken);
+//        database.setRefreshToken(user.getUsername(), refreshToken);
+//        database.setAccessToken(user.getUsername(), accessToken);
     }
 
 
