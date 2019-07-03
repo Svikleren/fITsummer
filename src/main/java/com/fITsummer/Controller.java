@@ -35,8 +35,8 @@ import org.springframework.web.servlet.view.InternalResourceViewResolver;
 public class Controller {
 
     User user;
-    String clientID = "123456648359-h291vabrnarv7ftjf2ff0p8vb740vm7l.apps.googleusercontent.com";
-    String clientSecret = "CUKFykGXnUu9jO7oY7dMCwMG";
+    String clientID = "";
+    String clientSecret = "";
 
     @GetMapping("/")
     @ResponseBody
@@ -80,7 +80,7 @@ public class Controller {
 
     @RequestMapping(value = "/getTokens", method = RequestMethod.GET)
     public String redirect() {
-        String redirectUrl = "https://accounts.google.com/o/oauth2/v2/auth?client_id=123456648359-h291vabrnarv7ftjf2ff0p8vb740vm7l.apps.googleusercontent.com&response_type=code&scope=https://www.googleapis.com/auth/fitness.activity.read&redirect_uri=http://localhost:8080/code&access_type=offline";
+        String redirectUrl = "";
         return "redirect:" + redirectUrl;
     }
 

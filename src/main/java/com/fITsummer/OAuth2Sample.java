@@ -49,7 +49,7 @@ public class OAuth2Sample {
      * Be sure to specify the name of your application. If the application name is {@code null} or
      * blank, the application will log a warning. Suggested format is "MyCompany-ProductName/1.0".
      */
-    public static final String APPLICATION_NAME = "fITsummer";
+    public static final String APPLICATION_NAME = "";
 
     /**
      * Directory to store user credentials.
@@ -86,8 +86,8 @@ public class OAuth2Sample {
 
     public static String accessToken = "";
 
-    public static String clientSecret = "GpxRtaBnTXlkylXzbvDHCZSN";
-    public static String clientID = "123456648359-ob0vigogq1j28v9j804787e9tvlh0pa2.apps.googleusercontent.com";
+    public static String clientSecret = "";
+    public static String clientID = "";
 
     /**
      * Authorizes the installed application to access user's protected data.

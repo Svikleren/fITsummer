@@ -13,7 +13,7 @@ import java.util.Collections;
 public class Requests {
 
     User user;
-    String appName = "fITsummer";
+    String appName = "";
     String dataTypeName = "com.google.step_count.delta";
     String dataSourceId = "derived:com.google.step_count.delta:com.google.android.gms:estimated_steps";
     String accessToken = "";
