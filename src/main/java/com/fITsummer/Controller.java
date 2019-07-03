@@ -37,6 +37,7 @@ public class Controller {
     User user;
     String clientID = "123456648359-h291vabrnarv7ftjf2ff0p8vb740vm7l.apps.googleusercontent.com";
     String clientSecret = "CUKFykGXnUu9jO7oY7dMCwMG";
+    Database db;
 
     @GetMapping("/")
     @ResponseBody
@@ -49,21 +50,46 @@ public class Controller {
 
     @RequestMapping(value = "/login", method = RequestMethod.GET)
     @ResponseBody
-    public String onLoginButtonClick(String username, String password) {
-        //šeit pārbaudam vai ir datubāzē
-        //un pārbaudam vai lietotājvārds+parole sakrīt
-        User user = new User(username, password);
-        this.user = user;
-        return "<a href='/getTokens'>Sign-in with Google<a><br/>\n";
+    public String onLoginButtonClick(@RequestParam(value = "username", required = false) String username,
+                                     @RequestParam(value = "password", required = false) String password) throws SQLException {
+        if (username == null && password == null) {
+            return "<form action=''>\n" + "Username: <input type='text' name='username' value=''><br/>\n"
+                    + "Password:<input type='text' name='password' value=''><br/>\n"
+                    + "<input type='submit' value='Login'><br/>\n" + "<a href='/'>Back</a>\n";
+        } else {
+            db = new Database();
+            boolean checkUser = db.userExists(username);
+            boolean checkUserPass = db.userPwdCorrect(username, password);
+            if (checkUser && checkUserPass) {
+                User user = new User(username, password);
+                this.user = user;
+                return "<a href='/getTokens'>Sign-in with Google<a><br/>\n";
+            } else if (checkUser == true & checkUserPass == false) {
+                return "Incorrect password" + "<a href='/'>Back</a>\n";
+            } else return "Incorrect username" + "<a href='/'>Back</a>\n";
+        }
     }
 
     @RequestMapping(value = "/register")
     @ResponseBody
-    public String onRegisterButtonClick(String username, String password, String email) {
-        //šeit pārbaudam vai datubāzē nav tāds lietotājvārds un parole
-        User user = new User(username, password);
-        this.user = user;
-        return "<a href='/getTokens'>Sign-in with Google<a><br/>\n";
+    public String onRegisterButtonClick(@RequestParam(value = "username", required = false) String username,
+                                        @RequestParam(value = "password", required = false) String password) throws SQLException {
+        if (username == null && password == null) {
+            return "<form action=''>\n" + "New username: <input type='text' name='username' value=''><br/>\n"
+                    + "New password:<input type='text' name='password' value=''><br/>\n"
+                    + "<input type='submit' value='Login'><br/>\n" + "<a href='/'>Back</a>\n";
+        } else if (password == null) {
+            return "Empty password!" + "<a href='/'>Back</a>\n";
+        } else {
+            db = new Database();
+            boolean checkUser = db.userExists(username);
+            if (checkUser == false) {
+                User user = new User(username, password);
+                this.user = user;
+                db.registerNewUser(username, password);
+                return "<a href='/getTokens'>Sign-in with Google<a><br/>\n";
+            } else return "This username already exists" + "<a href='/'>Back</a>\n";
+        }
     }
 
     @RequestMapping(value = "/graph")
@@ -75,12 +101,13 @@ public class Controller {
             sb.append(": ");
             sb.append(results[i].getStepCount() + "<br/>");
         }
+        sb.append("<a href='/'>Back</a>\n");
         return sb.toString();
     }
 
     @RequestMapping(value = "/getTokens", method = RequestMethod.GET)
     public String redirect() {
-        String redirectUrl = "https://accounts.google.com/o/oauth2/v2/auth?client_id=123456648359-h291vabrnarv7ftjf2ff0p8vb740vm7l.apps.googleusercontent.com&response_type=code&scope=https://www.googleapis.com/auth/fitness.activity.read&redirect_uri=http://localhost:8080/code&access_type=offline";
+        String redirectUrl = "https://accounts.google.com/o/oauth2/v2/auth?client_id=123456648359-h291vabrnarv7ftjf2ff0p8vb740vm7l.apps.googleusercontent.com&response_type=code&scope=https://www.googleapis.com/auth/fitness.activity.read&redirect_uri=http://localhost:8080/code&access_type=offline&prompt=select_account";
         return "redirect:" + redirectUrl;
     }
 
