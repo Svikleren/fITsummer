@@ -1,49 +1,59 @@
 package com.fITsummer;
 
-import org.springframework.beans.factory.annotation.Autowired;
+import com.google.api.client.auth.oauth2.Credential;
+import com.google.api.client.googleapis.javanet.GoogleNetHttpTransport;
+import com.google.api.services.oauth2.Oauth2;
+
+import java.io.IOException;
+import java.time.LocalDate;
+import java.util.Calendar;
 
 public class User {
     private String username;
     private String password;
-    private String refreshToken;
     private String accessToken;
-    private long epoch;
-
+    Day[] results = new Day[7];
 
     public User(String login, String password) {
         this.username = login; //store login
         this.password = password; //store password
     }
 
+    public Day[] login() throws IOException {
+        Requests google = new Requests(this);
+        results = google.requestData();
+        return results;
+    }
+
     public String getUsername() {
         return username;
     }
 
-    //Šī metode teorētiski nav vajadzīga. -J
-    // get all tokens for current instance of class User from database
-//    public void getTokensFromDb() {
-//        setRefreshToken(Database.getRefreshToken(this.username));
-//        setAccessToken(Database.getAccessToken(this.username));
-//    }
-
-
-
-    //static void to get current epoch
-    public static long getCurrentEpoch() {
-        return System.currentTimeMillis();
+    public void setUsername(String username) {
+        this.username = username;
     }
 
-
-    //set current time (epoch) for current instance of class User
-    public void setEpoch() {
-        this.epoch = getCurrentEpoch();
+    public String getPassword() {
+        return password;
     }
 
-    public void setRefreshToken(String refreshToken) {
-        this.refreshToken = refreshToken;
+    public void setPassword(String password) {
+        this.password = password;
+    }
+
+    public String getAccessToken() {
+        return accessToken;
     }
 
     public void setAccessToken(String accessToken) {
         this.accessToken = accessToken;
+    }
+
+    public Day[] getResults() {
+        return results;
+    }
+
+    public void setResults(Day[] results) {
+        this.results = results;
     }
 }

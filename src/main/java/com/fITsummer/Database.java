@@ -16,21 +16,21 @@ public class Database {
     protected Connection conn = null;
     private final String DB_URL = "jdbc:mysql://127.0.0.1:3306/?autoReconnect=true&useSSL=false&characterEncoding=utf8&serverTimezone=GMT ";
     private final String USER = "root";
-    private final String PASS = "Student007";
+    private final String PASS = "admin";
     private PreparedStatement preparedStatement = null;
 
-//testa nolūkiem datubāzes izdrukāšana, kamēr taisam projektu
+/*    //testa nolūkiem datubāzes izdrukāšana, kamēr taisam projektu
     public static void main(String[] args) throws SQLException {
         Database ourDB = new Database();
         System.out.println(ourDB);
-/*        System.out.println(ourDB.userExists("renata"));
+        System.out.println(ourDB.userExists("renata"));
         System.out.println(ourDB.userExists("dsfgdsfgsdf"));
         System.out.println(ourDB.userPwdCorrect("renata", "parole1"));
         System.out.println(ourDB.userPwdCorrect("renata", "pasdfgdsfsrole1"));
         System.out.println(ourDB.userPwdCorrect("renasdfsdfta", "parole1"));
         ourDB.registerNewUser("randomuser", "parole");
-        System.out.println(ourDB.userExists("randomuser"));*/
-    }
+        System.out.println(ourDB.userExists("randomuser"));
+    }*/
 
     public Database() {
         logger.info("test printing");
@@ -57,11 +57,12 @@ public class Database {
         preparedStatement = conn.prepareStatement("SELECT username FROM fITsummer.user_info WHERE username like ?");
         preparedStatement.setString(1, username);
         ResultSet rs = preparedStatement.executeQuery();
-            while (rs.next()) {
+        while (rs.next()) {
             System.out.println("Username " + username + " already exists");
-                return true;
-            } return false;
-}
+            return true;
+        }
+        return false;
+    }
 
 
     //return true if combination username+password is correct
