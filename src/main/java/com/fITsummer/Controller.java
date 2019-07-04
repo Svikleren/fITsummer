@@ -4,6 +4,7 @@ import com.google.api.client.googleapis.auth.oauth2.GoogleAuthorizationCodeToken
 import com.google.api.client.googleapis.auth.oauth2.GoogleClientSecrets;
 import com.google.api.client.googleapis.auth.oauth2.GoogleTokenResponse;
 import com.google.api.client.http.javanet.NetHttpTransport;
+import com.google.api.client.json.JsonFactory;
 import com.google.api.client.json.jackson2.JacksonFactory;
 import org.apache.http.HttpResponse;
 import org.apache.http.NameValuePair;
@@ -36,8 +37,6 @@ import org.springframework.web.servlet.view.InternalResourceViewResolver;
 public class Controller {
 
     User user;
-    String clientID = "123456648359-h291vabrnarv7ftjf2ff0p8vb740vm7l.apps.googleusercontent.com";
-    String clientSecret = "iTv81t9e4-QLdlI2N2LBAmVV";
     @Autowired
     Database db;
 
@@ -114,13 +113,16 @@ public class Controller {
     @RequestMapping(value = "/code")
     @ResponseBody
     public String code(@RequestParam String code) throws IOException {
+        GoogleClientSecrets clientSecrets = GoogleClientSecrets.load(
+                JacksonFactory.getDefaultInstance(), new FileReader("client_secrets.json"));
+
         GoogleTokenResponse tokenResponse =
                 new GoogleAuthorizationCodeTokenRequest(
                         new NetHttpTransport(),
                         JacksonFactory.getDefaultInstance(),
                         "https://www.googleapis.com/oauth2/v4/token",
-                        clientID,
-                        clientSecret,
+                        clientSecrets.getDetails().getClientId(),
+                        clientSecrets.getDetails().getClientSecret(),
                         code,
                         "http://localhost:8080/code")  // Specify the same redirect URI that you use with your web
                         .execute();

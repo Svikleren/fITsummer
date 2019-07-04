@@ -29,3 +29,6 @@ build/
 
 ### VS Code ###
 .vscode/
+
+### MY ###
+**/client_secrets.json
