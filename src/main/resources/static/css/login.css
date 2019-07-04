@@ -1,36 +1,48 @@
 body {
-  background: grey;
+  margin: 0;
+  padding: 0;
+  background: url(https://www.yourdictionary.com/images/definitions/lg/4761.footprint.jpg);
+  background-size: cover;
+  background-position: center;
+  font-family: Arial, Helvetica, sans-serif;
 }
 .simple-form {
-  text-align: center;
-  margin: 100px 400px;
+  width: 420px;
+  height: 550px;
+  background: #000;
+  color: #fff;
+  top: 50%;
+  left: 50%;
+  position: absolute;
+  transform: translate(-80%, -80%);
+  box-sizing: border-box;
+  padding: 50px 30px;
 }
-#register {
+/* #register {
   width: 80%;
   background-color: lightsteelblue;
   padding: 100px 0px;
   background-position: auto;
-}
+} */
 #button {
-  width: 200px;
-  padding: 10px;
-  border-radius: 5px;
-  outline: 0px;
+  border: none;
+  outline: none;
+  height: 40px;
+  background: darkgray;
+  color: #fff;
+  font-size: 18px;
 }
 #but {
-  background: grey;
-  padding: 5px 15px;
   font-size: 30px;
   color: black;
   border: none;
-  margin: 0 10px;
-  border-radius: 3px;
+  outline: none;
+  border-radius: 5px;
   cursor: pointer;
 }
 .form-row {
-  width: 50%;
-  padding: 12px 20px;
-  margin: 8px 0;
-  display: inline-block;
-  box-sizing: border-box;
+  margin: 0;
+  padding: 0 0 20px;
+  text-align: center;
+  font-size: 22px;
 }
