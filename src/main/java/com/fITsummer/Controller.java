@@ -12,6 +12,7 @@ import org.apache.http.client.entity.UrlEncodedFormEntity;
 import org.apache.http.client.methods.HttpPost;
 import org.apache.http.impl.client.DefaultHttpClient;
 import org.apache.http.message.BasicNameValuePair;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.ui.ModelMap;
@@ -36,7 +37,8 @@ public class Controller {
 
     User user;
     String clientID = "123456648359-h291vabrnarv7ftjf2ff0p8vb740vm7l.apps.googleusercontent.com";
-    String clientSecret = "CUKFykGXnUu9jO7oY7dMCwMG";
+    String clientSecret = "iTv81t9e4-QLdlI2N2LBAmVV";
+    @Autowired
     Database db;
 
     @GetMapping("/")
@@ -57,7 +59,6 @@ public class Controller {
                     + "Password:<input type='text' name='password' value=''><br/>\n"
                     + "<input type='submit' value='Login'><br/>\n" + "<a href='/'>Back</a>\n";
         } else {
-            db = new Database();
             boolean checkUser = db.userExists(username);
             boolean checkUserPass = db.userPwdCorrect(username, password);
             if (checkUser && checkUserPass) {
@@ -77,11 +78,10 @@ public class Controller {
         if (username == null && password == null) {
             return "<form action=''>\n" + "New username: <input type='text' name='username' value=''><br/>\n"
                     + "New password:<input type='text' name='password' value=''><br/>\n"
-                    + "<input type='submit' value='Login'><br/>\n" + "<a href='/'>Back</a>\n";
+                    + "<input type='submit' value='Register'><br/>\n" + "<a href='/'>Back</a>\n";
         } else if (password == null) {
             return "Empty password!" + "<a href='/'>Back</a>\n";
         } else {
-            db = new Database();
             boolean checkUser = db.userExists(username);
             if (checkUser == false) {
                 User user = new User(username, password);
