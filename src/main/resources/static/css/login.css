@@ -18,12 +18,12 @@ body {
   box-sizing: border-box;
   padding: 50px 30px;
 }
-/* #register {
+#register {
   width: 80%;
   background-color: lightsteelblue;
   padding: 100px 0px;
   background-position: auto;
-} */
+}
 #button {
   border: none;
   outline: none;

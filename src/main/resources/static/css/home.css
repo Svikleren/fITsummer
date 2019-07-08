@@ -9,10 +9,30 @@ html {
 }
 
 body {
+  /* background: url(https://www.yourdictionary.com/images/definitions/lg/4761.footprint.jpg); */
   background: #ccc;
   margin: 0;
 }
-
+.navbar navbar-expand-lg navbar-light bg-light {
+  display: flex;
+  justify-content: center;
+  list-style: none;
+  color: black;
+}
+.container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: row;
+  flex-wrap: wrap;
+  color: black;
+}
+a {
+  margin: 15px;
+  text-decoration: none;
+  text-transform: uppercase;
+  color: black;
+}
 /*
    container is 100% , but height is automatic from browser that why dont write it here
   */
@@ -29,9 +49,7 @@ span {
   margin: 0 auto;
   padding: 10px;
 }
-a {
-  color: black;
-}
+
 #myBtn {
   display: none;
   position: fixed;
@@ -41,7 +59,7 @@ a {
   font-size: 18px;
   border: none;
   outline: none;
-  background-color: rgb(126, 7, 96);
+  background-color: rgb(8, 8, 8);
   color: white;
   cursor: pointer;
   padding: 15px;
@@ -144,4 +162,168 @@ span.buttonText {
   font-weight: bold;
   /* Use the Roboto font that is loaded in the <head> */
   font-family: "Roboto", sans-serif;
+}
+
+/* body.body {
+  margin: 0;
+  padding: 0;
+  background: url(https://www.yourdictionary.com/images/definitions/lg/4761.footprint.jpg);
+  background-size: cover;
+  background-position: center;
+  font-family: Arial, Helvetica, sans-serif;
+} */
+.loginbox {
+  width: 320px;
+  height: 420px;
+  background: #000;
+  color: #fff;
+  top: 50%;
+  left: 50%;
+  position: absolute;
+  transform: translate(-50%, -50%);
+  box-sizing: border-box;
+  padding: 70px 30px;
+}
+
+.footprint {
+  width: 100px;
+  height: 100px;
+  border-radius: 50%;
+  position: absolute;
+  top: -50px;
+  left: calc(50% - 50px);
+}
+h1,
+.col {
+  margin: 0;
+  padding: 0 0 20px;
+  text-align: center;
+  font-size: 22px;
+}
+.loginbox p,
+.col {
+  margin: 0;
+  padding: 0;
+  font-weight: bold;
+}
+.loginbox input,
+.col {
+  width: 100%;
+  margin-bottom: 20px;
+}
+.loginbox input[type="text"],
+.form-control[type="text"],
+input[type="password"] {
+  border: none;
+  border-bottom: 1px solid #fff;
+  background: transparent;
+  outline: none;
+  height: 40px;
+  color: #fff;
+  font-size: 16px;
+}
+.loginbox input[type="submit"] {
+  border: none;
+  outline: none;
+  height: 40px;
+  background: darkgray;
+  color: #fff;
+  font-size: 18px;
+}
+.loginbox input[type="submit"]:hover {
+  cursor: pointer;
+  background: palevioletred;
+  color: #000;
+}
+.Registerhere {
+  font-size: 15px;
+  color: rgb(71, 65, 71);
+}
+#customBtn {
+  display: inline-block;
+  /* background: white; */
+  color: #444;
+  width: 190px;
+  border-radius: 5px;
+  border: thin solid #888;
+  box-shadow: 1px 1px 1px grey;
+  white-space: nowrap;
+}
+#customBtn:hover {
+  cursor: pointer;
+}
+span.label {
+  font-family: Arial, Helvetica, sans-serif;
+  font-weight: normal;
+}
+span.icon {
+  background: url("/identity/sign-in/g-normal.png") transparent 5px 50%
+    no-repeat;
+  display: inline-block;
+  vertical-align: middle;
+  width: 42px;
+  height: 42px;
+}
+span.buttonText {
+  display: inline-block;
+  vertical-align: middle;
+  padding-left: 42px;
+  padding-right: 42px;
+  font-size: 14px;
+  font-weight: bold;
+  /* Use the Roboto font that is loaded in the <head> */
+  font-family: "Roboto", sans-serif;
+}
+
+/* body {
+  margin: 0;
+  padding: 0;
+  background: url(https://www.yourdictionary.com/images/definitions/lg/4761.footprint.jpg);
+  background-size: cover;
+  background-position: center;
+  font-family: Arial, Helvetica, sans-serif;
+} */
+.simple-form {
+  width: 420px;
+  height: 550px;
+  background: #000;
+  color: #fff;
+  top: 50%;
+  left: 50%;
+  position: absolute;
+  transform: translate(-50%, -50%);
+  box-sizing: border-box;
+  padding: 50px 30px;
+}
+#register {
+  width: 80%;
+  background-color: lightsteelblue;
+  padding: 100px 0px;
+  background-position: auto;
+}
+#button {
+  border: none;
+  outline: none;
+  height: 40px;
+  background: darkgray;
+  color: #fff;
+  font-size: 18px;
+}
+#but:hover {
+  /* cursor: pointer;
+  
+  color: #000; */
+  background: palevioletred;
+  font-size: 18px;
+  color: black;
+  border: none;
+  outline: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+.form-row {
+  margin: 0;
+  padding: 0 0 20px;
+  text-align: center;
+  font-size: 22px;
 }

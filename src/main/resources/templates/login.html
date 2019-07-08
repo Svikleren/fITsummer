@@ -26,15 +26,35 @@
       integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO"
       crossorigin="anonymous"
     />
-    <link rel="stylesheet" type="text/css" href="../static/css/login.css" />
+    <!-- <link rel="stylesheet" type="text/css" href="../static/css/login.css" /> -->
+    <link rel="stylesheet" type="text/css" href="../static/css/home.css" />
   </head>
-  <body>
+  <body class="body">
+    <header>
+      <nav class="navbar navbar-expand-lg navbar-light bg-light">
+        <div class="container">
+          <a class="navbar-brand" href="home.html">HOME PAGE</a>
+          <a class="navbar-brand" href="statics.html">STATICS</a>
+          <a class="navbar-brand" href="logbox.html">LOGIN</a>
+          <a class="navbar-brand" href="login.html">REGISTER</a>
+        </div>
+      </nav>
+    </header>
+    <div class="wrapper">
+        <img
+        src=https://www.yourdictionary.com/images/definitions/lg/4761.footprint.jpg
+        alt="footprint"
+      />
+      <div class="a-container">
+        <div class="A">
+          <div class="a-inner">
+          
     <div class="simple-form">
       <!-- <form id="register" method="post" action="../forms/formdata.php"> -->
       <form class="needs-validation">
         <div class="form-row">
           <div class="col">
-            <label for="username">Username</label>
+            <label for="username" class="user">Username</label>
             <input
               type="text"
               class="form-control"
@@ -106,7 +126,12 @@
         <input id="but" type="submit" value="Register" />
       </form>
     </div>
+
+  
     <hr />
+  </div>
+</div>
+</div>
     <script>
       $("#password, #confirm-password").on("keyup", function() {
         if ($("#password").val() == $("#confirm-password").val()) {
