@@ -41,15 +41,27 @@ public class Controller {
     Database db;
 
     @GetMapping("/")
-    @ResponseBody
+//    @ResponseBody
     public String home() {
-        StringBuilder sb = new StringBuilder();
-        sb.append("<a href='/login'>Login<a><br/>\n");
-        sb.append("<a href='/register'>Register<a><br/>\n");
-        return sb.toString();
+//        StringBuilder sb = new StringBuilder();
+//        sb.append("<a href='/login'>Login<a><br/>\n");
+//        sb.append("<a href='/register'>Register<a><br/>\n");
+//        return sb.toString();
+        return "home";
     }
 
-    @RequestMapping(value = "/login", method = RequestMethod.GET)
+    @GetMapping("/logbox")
+    public String logbox() {
+        return "logbox";
+    }
+
+    @GetMapping("/login")
+    public String login() {
+        return "login";
+    }
+
+
+//    @RequestMapping(value = "/login", method = RequestMethod.GET)
     @ResponseBody
     public String onLoginButtonClick(@RequestParam(value = "username", required = false) String username,
                                      @RequestParam(value = "password", required = false) String password) throws SQLException {
