@@ -4,34 +4,15 @@ import com.google.api.client.googleapis.auth.oauth2.GoogleAuthorizationCodeToken
 import com.google.api.client.googleapis.auth.oauth2.GoogleClientSecrets;
 import com.google.api.client.googleapis.auth.oauth2.GoogleTokenResponse;
 import com.google.api.client.http.javanet.NetHttpTransport;
-import com.google.api.client.json.JsonFactory;
 import com.google.api.client.json.jackson2.JacksonFactory;
-import org.apache.http.HttpResponse;
-import org.apache.http.NameValuePair;
-import org.apache.http.client.HttpClient;
-import org.apache.http.client.entity.UrlEncodedFormEntity;
-import org.apache.http.client.methods.HttpPost;
-import org.apache.http.impl.client.DefaultHttpClient;
-import org.apache.http.message.BasicNameValuePair;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.MediaType;
-import org.springframework.ui.ModelMap;
-import org.springframework.util.MultiValueMap;
 import org.springframework.web.bind.annotation.*;
 
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 import java.io.*;
-import java.net.HttpURLConnection;
-import java.net.URL;
 import java.sql.SQLException;
-import java.util.*;
 
-import org.apache.commons.collections.MultiMap;
-import org.springframework.web.servlet.ModelAndView;
-import org.springframework.web.servlet.view.UrlBasedViewResolver;
-import org.springframework.web.servlet.view.InternalResourceViewResolver;
+import static org.springframework.web.bind.annotation.RequestMethod.GET;
+import static org.springframework.web.bind.annotation.RequestMethod.POST;
 
 @org.springframework.stereotype.Controller
 public class Controller {
@@ -41,12 +22,7 @@ public class Controller {
     Database db;
 
     @GetMapping("/")
-//    @ResponseBody
     public String home() {
-//        StringBuilder sb = new StringBuilder();
-//        sb.append("<a href='/login'>Login<a><br/>\n");
-//        sb.append("<a href='/register'>Register<a><br/>\n");
-//        return sb.toString();
         return "home";
     }
 
@@ -60,8 +36,13 @@ public class Controller {
         return "login";
     }
 
+    @GetMapping("/statics")
+    public String statics() {
+        return "statics";
+    }
 
-//    @RequestMapping(value = "/login", method = RequestMethod.GET)
+
+    @PostMapping(value = "/login")
     @ResponseBody
     public String onLoginButtonClick(@RequestParam(value = "username", required = false) String username,
                                      @RequestParam(value = "password", required = false) String password) throws SQLException {
@@ -82,7 +63,7 @@ public class Controller {
         }
     }
 
-    @RequestMapping(value = "/register")
+    @PostMapping(value = "/register")
     @ResponseBody
     public String onRegisterButtonClick(@RequestParam(value = "username", required = false) String username,
                                         @RequestParam(value = "password", required = false) String password) throws SQLException {
@@ -103,7 +84,7 @@ public class Controller {
         }
     }
 
-    @RequestMapping(value = "/graph")
+    @PostMapping(value = "/graph")
     @ResponseBody
     public String graph(Day[] results) {
         StringBuilder sb = new StringBuilder();
@@ -116,7 +97,7 @@ public class Controller {
         return sb.toString();
     }
 
-    @RequestMapping(value = "/getTokens", method = RequestMethod.GET)
+    @RequestMapping(value = "/getTokens", method = GET)
     public String redirect() {
         String redirectUrl = "https://accounts.google.com/o/oauth2/v2/auth?client_id=123456648359-h291vabrnarv7ftjf2ff0p8vb740vm7l.apps.googleusercontent.com&response_type=code&scope=https://www.googleapis.com/auth/fitness.activity.read&redirect_uri=http://localhost:8080/code&access_type=offline&prompt=select_account";
         return "redirect:" + redirectUrl;
