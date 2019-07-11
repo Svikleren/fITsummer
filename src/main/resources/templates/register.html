@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html
+  lang="en"
+  xmlns="http://www.w3.org/1999/xhtml"
+  xmlns:th="http://www.thymeleaf.org"
+>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script
+      src="https://code.jquery.com/jquery-3.3.1.min.js"
+      crossorigin="anonymous"
+    ></script>
+    <script
+      src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js"
+      integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49"
+      crossorigin="anonymous"
+    ></script>
+    <script
+      src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js"
+      integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy"
+      crossorigin="anonymous"
+    ></script>
+    <link
+      rel="stylesheet"
+      href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css"
+      integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO"
+      crossorigin="anonymous"
+    />
+    <!-- <link rel="stylesheet" type="text/css" href="../static/css/login.css" /> -->
+    <link rel="stylesheet" type="text/css" href="../static/css/home.css" />
+    <title>Register</title>
+  </head>
+
+  <body class="body">
+    <header>
+      <nav class="navbar navbar-expand-lg navbar-light bg-light">
+        <div class="container">
+          <a class="navbar-brand" href="home.html">HOME PAGE</a>
+          <a class="navbar-brand" href="statics.html">STATISTICS</a>
+          <a class="navbar-brand" href="logbox.html">LOGIN</a>
+          <a class="navbar-brand" href="register.html">REGISTER</a>
+        </div>
+      </nav>
+    </header>
+    <div class="wrapper">
+      <!-- <img
+      src=https://www.yourdictionary.com/images/definitions/lg/4761.footprint.jpg
+      alt="footprint" /> -->
+      <div class="a-container">
+        <div class="simple-form">
+          <form id="reg" onsubmit="myFunction(); return false;">
+            <!-- <form class="needs-validation"> -->
+            <div class="loginbox">
+              <h1>Register Here</h1>
+              <form>
+                <!-- <div class="col"> -->
+                <!-- <p>Username</p> -->
+                <!-- <label for="username">Username</label> -->
+                <input
+                  id="username"
+                  type="text"
+                  class="form-control"
+                  placeholder="Enter Username:"
+                  required
+                />
+                <div class="invalid-tooltip">
+                  Please choose a unique and valid username.
+                </div>
+                <!-- </div>
+              </div> -->
+
+                <!-- <div class="col"> -->
+                <!-- <p>Password</p> -->
+                <!-- <label for="password">Password</label> -->
+                <input
+                  type="password"
+                  id="password"
+                  class="form-control"
+                  name="password"
+                  placeholder="Enter Password: "
+                  required
+                />
+                <div class="invalid-tooltip">
+                  Please choose a unique and valid password.
+                </div>
+                <!-- </div> -->
+                <!-- </div> -->
+                <!-- <div class="form-row"> -->
+                <!-- <p>Repete password</p> -->
+                <div class="col">
+                  <!-- <label for="repeat-password">Repeat password</label> -->
+                  <input
+                    type="password"
+                    id="confirm-password"
+                    class="form-control"
+                    name="confirm-password"
+                    placeholder="Repeat password: "
+                    required
+                  />
+                  <span id="message"></span>
+                </div>
+                <!-- </div> -->
+                <input id="register" type="submit" name="" value="Register" />
+              </form>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+
+    <script>
+      $("#password, #confirm-password").on("keyup", function() {
+        if ($("#password").val() == $("#confirm-password").val()) {
+          $("#message")
+            .html("Matching")
+            .css("color", "green");
+        } else
+          $("#message")
+            .html("Not Matching")
+            .css("color", "red");
+      });
+      $("#register").click(function() {
+        var name = $("#username").val();
+        var password = $("#password").val();
+        // var data = { username: "name", password: "password"};
+        var data = { username: name, password: password };
+        //   $.post("localhost:8080/login", data, function() {
+        //     loadData();
+        //   });
+        console.log(data);
+
+        $.ajax({
+          url: "http://localhost:8080/register",
+          type: "POST",
+          data: JSON.stringify(data), //this is serilizacija, server doesnt understand objects, have to send data to server as string
+          contentType: "application/json;charset-utf-8",
+          dataType: "json",
+          success: function() {
+            loadData();
+          }
+        });
+      });
+      function myFunction() {
+        return false;
+      }
+    </script>
+  </body>
+</html>
