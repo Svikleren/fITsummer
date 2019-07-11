@@ -6,7 +6,10 @@ import com.google.api.client.googleapis.auth.oauth2.GoogleTokenResponse;
 import com.google.api.client.http.javanet.NetHttpTransport;
 import com.google.api.client.json.jackson2.JacksonFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+import org.springframework.web.servlet.mvc.support.RedirectAttributesModelMap;
 
 import java.io.*;
 import java.sql.SQLException;
@@ -27,7 +30,11 @@ public class Controller {
     }
 
     @GetMapping("/logbox")
-    public String logbox() {
+    public String logbox( @ModelAttribute("message") String message,   @RequestParam(value = "attr", required = false) String attr, Model model) {
+        model.addAttribute("message","990");
+        System.out.println("message " + message);
+        System.out.println("attr " + attr);
+        model.addAttribute("message", message+"");
         return "logbox";
     }
 
@@ -43,22 +50,23 @@ public class Controller {
 
 
     @PostMapping(value = "/login")
-    @ResponseBody
-    public String onLoginButtonClick(@RequestParam(value = "username", required = false) String username,
-                                     @RequestParam(value = "password", required = false) String password) throws SQLException {
-        if (username == null && password == null) {
-            return "<form action=''>\n" + "Username: <input type='text' name='username' value=''><br/>\n"
-                    + "Password:<input type='text' name='password' value=''><br/>\n"
-                    + "<input type='submit' value='Login'><br/>\n" + "<a href='/'>Back</a>\n";
+   // @ResponseBody
+    public String onLoginButtonClick(@RequestBody LoginData loginData,RedirectAttributes ra) throws SQLException {
+
+        if (loginData.getUser() == null && loginData.getPassword() == null) {
+            return "logbox";
         } else {
-            boolean checkUser = db.userExists(username);
-            boolean checkUserPass = db.userPwdCorrect(username, password);
+            boolean checkUser = db.userExists(loginData.getUser());
+            boolean checkUserPass = db.userPwdCorrect(loginData.getUser(), loginData.getPassword());
             if (checkUser && checkUserPass) {
-                User user = new User(username, password);
+                User user = new User(loginData.getUser(), loginData.getPassword());
                 this.user = user;
-                return "<a href='/getTokens'>Sign-in with Google<a><br/>\n";
+                return "redirect:/getTokens";
             } else if (checkUser == true & checkUserPass == false) {
-                return "Incorrect password" + "<a href='/'>Back</a>\n";
+                ra.addAttribute("attr", "attrVal");
+                ra.addFlashAttribute("message", "ufonogduafsnaosidlfs");
+                return  "redirect:/logbox";
+                //return "Incorrect password" + "<a href='/'>Back</a>\n";
             } else return "Incorrect username" + "<a href='/'>Back</a>\n";
         }
     }
