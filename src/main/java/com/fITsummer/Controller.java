@@ -33,7 +33,7 @@ public class Controller {
 
     @GetMapping("/login")
     public String login() {
-        return "login";
+        return "register";
     }
 
     @GetMapping("/statics")

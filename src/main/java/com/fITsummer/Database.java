@@ -17,7 +17,7 @@ public class Database {
     protected Connection conn = null;
     private final String DB_URL = "jdbc:mysql://127.0.0.1:3306/?autoReconnect=true&useSSL=false&characterEncoding=utf8&serverTimezone=GMT ";
     private final String USER = "root";
-    private final String PASS = "Student007";
+    private final String PASS = "admin";
     private PreparedStatement preparedStatement = null;
 
     public Database() {
