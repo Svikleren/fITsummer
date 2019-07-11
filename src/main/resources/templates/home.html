@@ -1,82 +1,90 @@
 <!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8"/>
-    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-    <meta http-equiv="X-UA-Compatible" content="ie=edge"/>
+<html
+  lang="en"
+  xmlns="http://www.w3.org/1999/xhtml"
+  xmlns:th="http://www.thymeleaf.org"
+>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
 
-    <script
-            src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js"
-            integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy"
-            crossorigin="anonymous"
-    ></script>
+<!--    <script
+      src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js"
+      integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy"
+      crossorigin="anonymous"
+    ></script>-->
     <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
 
-    <link href="css/bootstrap.css" rel="stylesheet"/>
-    <link href="css/bootstrap-responsive.css" rel="stylesheet"/>
+    <link href="css/bootstrap.css" rel="stylesheet" />
+    <link href="css/bootstrap-responsive.css" rel="stylesheet" />
 
-    <link href="css/gridex.css" rel="stylesheet"/>
+    <link href="css/gridex.css" rel="stylesheet" />
 
     <link
-            rel="stylesheet"
-            href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css"
-            integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO"
-            crossorigin="anonymous"
+      rel="stylesheet"
+      href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css"
+      integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO"
+      crossorigin="anonymous"
     />
 
-    <link rel="stylesheet" type="text/css" href="http://localhost:8080/css/home.css"/>
+    <link rel="stylesheet" type="text/css" href="css/home.css" />
 
     <title>HOME</title>
-</head>
-<body>
-<header>
-    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+  </head>
+  <body>
+    <header>
+      <nav class="navbar navbar-expand-lg navbar-light bg-light">
         <div class="container">
-            <a class="navbar-brand" href="/">HOME PAGE</a>
-            <a class="navbar-brand" href="/statics">STATISTICS</a>
-            <a class="navbar-brand" href="/logbox">LOGIN</a>
-            <a class="navbar-brand" href="/login">REGISTER</a>
+          <a class="navbar-brand" href="/">HOME PAGE</a>
+          <a class="navbar-brand" href="/statics">STATISTICS</a>
+          <a class="navbar-brand" href="/logbox">LOGIN</a>
+          <a class="navbar-brand" href="/login">REGISTER</a>
         </div>
-    </nav>
-</header>
+      </nav>
+    </header>
 
-<div class="wrapper">
-    <div class="a-container">
+    <div class="wrapper">
+      <div class="a-container">
         <div class="A">
-            <div class="a-inner">
-                <h2>Google fit app</h2>
+          <div class="a-inner">
+            <h2>Google fit app</h2>
 
-                <p>
-                    There isn’t much you can do for your body that is better than
-                    getting in shape, staying in shape, and working out. It lowers all
-                    of the bad things (cholesterol, blood pressure, etc) and heightens
-                    all of the good things (muscles, stamina, etc). Owning an Android
-                    device won’t do these things for you but there are plenty of apps
-                    that can help you along the way. These apps have become shocking
-                    good as well. Unfortunately, they also tend to be shockingly
-                    expensive. Here are the best Android fitness apps and workout
-                    apps.
-                </p>
-            </div>
+            <p>
+              There isn’t much you can do for your body that is better than
+              getting in shape, staying in shape, and working out. It lowers all
+              of the bad things (cholesterol, blood pressure, etc) and heightens
+              all of the good things (muscles, stamina, etc). Owning an Android
+              device won’t do these things for you but there are plenty of apps
+              that can help you along the way. These apps have become shocking
+              good as well. Unfortunately, they also tend to be shockingly
+              expensive. Here are the best Android fitness apps and workout
+              apps.
+            </p>
+          </div>
+
+          <div class="a-inner">
+            <!-- <img
+              src="https://cdn1.corehandf.com/wp-content/uploads/2016/11/Schwinn-Group-1.jpg"
+              alt="fitness"
+            /> -->
+          </div>
         </div>
+
         <img
-                src="https://timedotcom.files.wordpress.com/2019/05/walking-fitness-tracker.jpg"
-                alt="fitness"
+          src="https://timedotcom.files.wordpress.com/2019/05/walking-fitness-tracker.jpg"
+          alt="fitness"
         />
-
+      </div>
     </div>
-</div>
-<button onclick="topFunction ()" id="myBtn" title="Go to top">Top</button>
+    <button onclick="topFunction ()" id="myBtn" title="Go to top">Top</button>
 
-<footer class="container">
-    fIT summer &copy;<script type="text/javascript">
-        document.write(new Date().getFullYear());
+    <footer class="container">
+      <!-- fIT summer &copy;<script type="text/javascript">
+        document.write(new Date().getFullYear()); -->
+    </footer>
 
-
-</script>
-</footer>
-
-<script>
+    <script>
       // When the user scrolls down 20px from the top of the document, show the button
       window.onscroll = function() {
         scrollFunction();
@@ -98,8 +106,6 @@
         document.body.scrollTop = 0;
         document.documentElement.scrollTop = 0;
       }
-
-
-</script>
-</body>
+    </script>
+  </body>
 </html>
