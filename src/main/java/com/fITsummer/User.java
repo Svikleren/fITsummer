@@ -1,20 +1,13 @@
 package com.fITsummer;
 
-import com.google.api.client.auth.oauth2.Credential;
-import com.google.api.client.googleapis.javanet.GoogleNetHttpTransport;
-import com.google.api.services.oauth2.Oauth2;
-
 import java.io.IOException;
-import java.time.LocalDate;
 import java.util.ArrayList;
-import java.util.Calendar;
 
 public class User {
     private String username;
     private String password;
     private String accessToken;
     ArrayList<Day> results = new ArrayList<>();
-    //Day[] results = new Day[7];
 
     public User(String login, String password) {
         this.username = login; //store login
@@ -32,8 +25,6 @@ public class User {
         results = google.requestData();
         return results;
     }
-
-
 
     public String getUsername() {
         return username;

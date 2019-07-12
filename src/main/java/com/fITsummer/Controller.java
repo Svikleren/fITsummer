@@ -14,6 +14,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributesModelMap;
 import java.io.*;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.Calendar;
 
 import static org.springframework.web.bind.annotation.RequestMethod.GET;
 import static org.springframework.web.bind.annotation.RequestMethod.POST;
@@ -33,15 +34,15 @@ public class Controller {
     }
 
     @GetMapping("/logbox")
-    public String logbox( @ModelAttribute("message") String message,   @RequestParam(value = "attr", required = false) String attr, Model model) {
-        model.addAttribute("message","990");
+    public String logbox(@ModelAttribute("message") String message, @RequestParam(value = "attr", required = false) String attr, Model model) {
+        model.addAttribute("message", "990");
         System.out.println("message " + message);
         System.out.println("attr " + attr);
-        model.addAttribute("message", message+"");
+        model.addAttribute("message", message + "");
         return "logbox";
     }
 
-    @GetMapping("/login")
+    @GetMapping("/register")
     public String login() {
         return "register";
     }
@@ -53,8 +54,8 @@ public class Controller {
 
 
     @PostMapping(value = "/login")
-   // @ResponseBody
-    public String onLoginButtonClick(@RequestBody LoginData loginData,RedirectAttributes ra) throws SQLException {
+    // @ResponseBody
+    public String onLoginButtonClick(@RequestBody LoginData loginData, RedirectAttributes ra) throws SQLException {
 
         if (loginData.getUser() == null && loginData.getPassword() == null) {
             return "logbox";
@@ -68,7 +69,7 @@ public class Controller {
             } else if (checkUser == true & checkUserPass == false) {
                 ra.addAttribute("attr", "attrVal");
                 ra.addFlashAttribute("message", "ufonogduafsnaosidlfs");
-                return  "redirect:/logbox";
+                return "redirect:/logbox";
                 //return "Incorrect password" + "<a href='/'>Back</a>\n";
             } else return "Incorrect username" + "<a href='/'>Back</a>\n";
         }
@@ -133,5 +134,30 @@ public class Controller {
         user.setAccessToken(tokenResponse.getAccessToken());
         results = user.login();
         return graph(results);
+    }
+
+    public String getMaxDate() {
+        Calendar endDate = Calendar.getInstance();
+        int year;
+        int month;
+        int day;
+        year = endDate.get(Calendar.YEAR);
+        month = endDate.get(Calendar.MONTH) + 1;
+        day = endDate.get(Calendar.DAY_OF_MONTH);
+        String date;
+        if (month < 10) date = year + "-0" + month + "-" + day;
+        else date = year + "-" + month + "-" + day;
+        return date;
+    }
+
+    public Calendar convertStringToDate(String date) {
+        int year = Integer.parseInt(date.substring(0, 4));
+        int month = Integer.parseInt(date.substring(5, 7)) - 1;
+        if (month == 0) month = Character.getNumericValue(date.charAt(6)) - 1;
+        int day = Integer.parseInt(date.substring(8, 10));
+        if (day == 0) day = Character.getNumericValue(date.charAt(9));
+        Calendar calendarDate = Calendar.getInstance();
+        calendarDate.set(year, month, day, 3, 0);
+        return calendarDate;
     }
 }

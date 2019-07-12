@@ -1,6 +1,5 @@
 package com.fITsummer;
 
-import java.time.LocalDate;
 
 public class Day {
     private String date;
