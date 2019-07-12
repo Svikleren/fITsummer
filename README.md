@@ -14,7 +14,7 @@ Set your step goal at 6,000 to 10,000 per day, and find how it goes in our web a
 
 # The Setup
 
-###Web
+###Webs
 
 fITsummer is web app. It is build to access to your step data from Google fit store.
 
