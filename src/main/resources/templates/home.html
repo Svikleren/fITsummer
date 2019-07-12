@@ -33,19 +33,18 @@
     <title>HOME</title>
   </head>
   <body>
-    <header>
-      <nav class="navbar navbar-expand-lg navbar-light bg-light">
-        <div class="container">
-          <a class="navbar-brand" href="home.html">HOME PAGE</a>
-          <a class="navbar-brand" href="statics.html">STATISTICS</a>
-          <a class="navbar-brand" href="logbox.html">LOGIN</a>
-          <a class="navbar-brand" href="register.htmls">REGISTER</a>
-        </div>
-      </nav>
-    </header>
-
     <div class="wrapper">
       <div class="a-container">
+        <header class="header">
+          <nav class="navbar navbar-expand-lg navbar-light bg-light">
+            <div class="container">
+              <a class="navbar-brand" href="home.html">HOME PAGE</a>
+              <!-- <a class="navbar-brand" href="statics.html">STATISTICS</a> -->
+              <a class="navbar-brand" href="logbox.html">LOGIN</a>
+              <a class="navbar-brand" href="register.html">REGISTER</a>
+            </div>
+          </nav>
+        </header>
         <div class="A">
           <div class="a-inner">
             <h2>Google fit app</h2>
@@ -68,24 +67,23 @@
               src="https://cdn1.corehandf.com/wp-content/uploads/2016/11/Schwinn-Group-1.jpg"
               alt="fitness"
             /> -->
+            <!-- </div>
+        </div> -->
+
+            <img
+              src="https://timedotcom.files.wordpress.com/2019/05/walking-fitness-tracker.jpg"
+              alt="fitness"
+            />
           </div>
         </div>
-
-        <img
-          src="https://timedotcom.files.wordpress.com/2019/05/walking-fitness-tracker.jpg"
-          alt="fitness"
-        />
       </div>
     </div>
-    <button onclick="topFunction ()" id="myBtn" title="Go to top">Top</button>
-
-    <footer class="container">
-      <!-- fIT summer &copy;<script type="text/javascript">
-        document.write(new Date().getFullYear()); -->
-    </footer>
-
     <script>
-      // When the user scrolls down 20px from the top of the document, show the button
+      <button onclick="topFunction ()" id="myBtn" title="Go to top">
+        Top
+      </button>;
+
+      //  When the user scrolls down 20px from the top of the document, show the button
       window.onscroll = function() {
         scrollFunction();
       };
@@ -107,5 +105,11 @@
         document.documentElement.scrollTop = 0;
       }
     </script>
+
+    <footer class="container">
+      fIT summer &copy;<script type="text/javascript">
+        document.write(new Date().getFullYear());
+      </script>
+    </footer>
   </body>
 </html>
