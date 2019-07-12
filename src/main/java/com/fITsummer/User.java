@@ -1,26 +1,27 @@
 package com.fITsummer;
 
-import com.google.api.client.auth.oauth2.Credential;
-import com.google.api.client.googleapis.javanet.GoogleNetHttpTransport;
-import com.google.api.services.oauth2.Oauth2;
-
 import java.io.IOException;
-import java.time.LocalDate;
-import java.util.Calendar;
+import java.util.ArrayList;
 
 public class User {
     private String username;
     private String password;
     private String accessToken;
-    Day[] results = new Day[7];
+    ArrayList<Day> results = new ArrayList<>();
 
     public User(String login, String password) {
         this.username = login; //store login
         this.password = password; //store password
     }
 
-    public Day[] login() throws IOException {
+    public ArrayList<Day> login() throws IOException {
         Requests google = new Requests(this);
+        results = google.requestData();
+        return results;
+    }
+
+    public ArrayList<Day> login(Long startTimeMillis, Long endTimeMillis) throws IOException {
+        Requests google = new Requests(this, startTimeMillis, endTimeMillis);
         results = google.requestData();
         return results;
     }
@@ -49,11 +50,11 @@ public class User {
         this.accessToken = accessToken;
     }
 
-    public Day[] getResults() {
+    public ArrayList<Day> getResults() {
         return results;
     }
 
-    public void setResults(Day[] results) {
+    public void setResults(ArrayList<Day> results) {
         this.results = results;
     }
 }

@@ -13,6 +13,8 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributesModelMap;
 
 import java.io.*;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.Calendar;
 
 import static org.springframework.web.bind.annotation.RequestMethod.GET;
 import static org.springframework.web.bind.annotation.RequestMethod.POST;
@@ -21,6 +23,8 @@ import static org.springframework.web.bind.annotation.RequestMethod.POST;
 public class Controller {
 
     User user;
+    ArrayList<Day> results;
+    String host = "http://localhost:8080";
     @Autowired
     Database db;
 
@@ -30,15 +34,15 @@ public class Controller {
     }
 
     @GetMapping("/logbox")
-    public String logbox( @ModelAttribute("message") String message,   @RequestParam(value = "attr", required = false) String attr, Model model) {
-        model.addAttribute("message","990");
+    public String logbox(@ModelAttribute("message") String message, @RequestParam(value = "attr", required = false) String attr, Model model) {
+        model.addAttribute("message", "990");
         System.out.println("message " + message);
         System.out.println("attr " + attr);
-        model.addAttribute("message", message+"");
+        model.addAttribute("message", message + "");
         return "logbox";
     }
 
-    @GetMapping("/login")
+    @GetMapping("/register")
     public String login() {
         return "register";
     }
@@ -50,8 +54,8 @@ public class Controller {
 
 
     @PostMapping(value = "/login")
-   // @ResponseBody
-    public String onLoginButtonClick(@RequestBody LoginData loginData,RedirectAttributes ra) throws SQLException {
+    // @ResponseBody
+    public String onLoginButtonClick(@RequestBody LoginData loginData, RedirectAttributes ra) throws SQLException {
 
         if (loginData.getUser() == null && loginData.getPassword() == null) {
             return "logbox";
@@ -65,7 +69,7 @@ public class Controller {
             } else if (checkUser == true & checkUserPass == false) {
                 ra.addAttribute("attr", "attrVal");
                 ra.addFlashAttribute("message", "ufonogduafsnaosidlfs");
-                return  "redirect:/logbox";
+                return "redirect:/logbox";
                 //return "Incorrect password" + "<a href='/'>Back</a>\n";
             } else return "Incorrect username" + "<a href='/'>Back</a>\n";
         }
@@ -94,18 +98,18 @@ public class Controller {
 
     @PostMapping(value = "/graph")
     @ResponseBody
-    public String graph(Day[] results) {
+    public String graph(ArrayList<Day> results) {
         StringBuilder sb = new StringBuilder();
-        for (int i = 0; i < results.length; i++) {
-            sb.append(results[i].getDate());
+        for (int i = 0; i < results.size(); i++) {
+            sb.append(results.get(i).getDate());
             sb.append(": ");
-            sb.append(results[i].getStepCount() + "<br/>");
+            sb.append(results.get(i).getStepCount() + "<br/>");
         }
         sb.append("<a href='/'>Back</a>\n");
         return sb.toString();
     }
 
-    @RequestMapping(value = "/getTokens", method = GET)
+    @RequestMapping(value = "/getTokens", method = RequestMethod.GET)
     public String redirect() {
         String redirectUrl = "https://accounts.google.com/o/oauth2/v2/auth?client_id=123456648359-h291vabrnarv7ftjf2ff0p8vb740vm7l.apps.googleusercontent.com&response_type=code&scope=https://www.googleapis.com/auth/fitness.activity.read&redirect_uri=http://localhost:8080/code&access_type=offline&prompt=select_account";
         return "redirect:" + redirectUrl;
@@ -125,10 +129,35 @@ public class Controller {
                         clientSecrets.getDetails().getClientId(),
                         clientSecrets.getDetails().getClientSecret(),
                         code,
-                        "http://localhost:8080/code")  // Specify the same redirect URI that you use with your web
+                        host + "/code")  // Specify the same redirect URI that you use with your web
                         .execute();
         user.setAccessToken(tokenResponse.getAccessToken());
-        Day[] results = user.login();
+        results = user.login();
         return graph(results);
+    }
+
+    public String getMaxDate() {
+        Calendar endDate = Calendar.getInstance();
+        int year;
+        int month;
+        int day;
+        year = endDate.get(Calendar.YEAR);
+        month = endDate.get(Calendar.MONTH) + 1;
+        day = endDate.get(Calendar.DAY_OF_MONTH);
+        String date;
+        if (month < 10) date = year + "-0" + month + "-" + day;
+        else date = year + "-" + month + "-" + day;
+        return date;
+    }
+
+    public Calendar convertStringToDate(String date) {
+        int year = Integer.parseInt(date.substring(0, 4));
+        int month = Integer.parseInt(date.substring(5, 7)) - 1;
+        if (month == 0) month = Character.getNumericValue(date.charAt(6)) - 1;
+        int day = Integer.parseInt(date.substring(8, 10));
+        if (day == 0) day = Character.getNumericValue(date.charAt(9));
+        Calendar calendarDate = Calendar.getInstance();
+        calendarDate.set(year, month, day, 3, 0);
+        return calendarDate;
     }
 }

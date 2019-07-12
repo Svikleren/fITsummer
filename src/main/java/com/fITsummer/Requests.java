@@ -6,7 +6,7 @@ import com.google.api.services.fitness.Fitness;
 import com.google.api.services.fitness.model.*;
 
 import java.io.IOException;
-import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Collections;
 
@@ -14,10 +14,8 @@ public class Requests {
 
     User user;
     String appName = "fITsummer";
-    String dataTypeName = "com.google.step_count.delta";
     String dataSourceId = "derived:com.google.step_count.delta:com.google.android.gms:estimated_steps";
-    String accessToken = "";
-
+    String accessToken;
     Long durationMillis = 86400000L;
     Long startTimeMillis = 0L;
     Long endTimeMillis = 0L;
@@ -35,6 +33,15 @@ public class Requests {
     }
 
 
+    public Requests(User user, Long startTime, Long endTime) {
+        this.user = user;
+        this.accessToken = user.getAccessToken();
+        this.startTimeMillis = startTime;
+        this.endTimeMillis = endTime;
+        authorizeUser();
+    }
+
+
     public void authorizeUser() {
         credential = new GoogleCredential().setAccessToken(accessToken);
         fitness = new Fitness.Builder(Utils.getDefaultTransport(), Utils.getDefaultJsonFactory(), null)
@@ -43,8 +50,7 @@ public class Requests {
                 .build();
     }
 
-    //create request for Google
-    public Day[] requestData() throws IOException {
+    public ArrayList<Day> requestData() throws IOException {
         BucketByTime bucketByTime = new BucketByTime();
         bucketByTime.setDurationMillis(durationMillis);
 
@@ -58,9 +64,8 @@ public class Requests {
         return parseReceivedData(response);
     }
 
-    //parse received data
-    public Day[] parseReceivedData(AggregateResponse response) {
-        Day[] results = new Day[7];
+    public ArrayList<Day> parseReceivedData(AggregateResponse response) {
+        ArrayList<Day> results = new ArrayList<>();
         int sum = 0;
         int i = 0;
         for (AggregateBucket aggregateBucket : response.getBucket()) {
@@ -76,7 +81,6 @@ public class Requests {
             }
             Calendar calendar = Calendar.getInstance();
             calendar.setTimeInMillis(aggregateBucket.getStartTimeMillis());
-            int mYear = calendar.get(Calendar.YEAR);
             int mMonth = calendar.get(Calendar.MONTH) + 1;
             int mDay = calendar.get(Calendar.DAY_OF_MONTH);
             String year = Integer.toString(calendar.get(Calendar.YEAR));
@@ -88,7 +92,7 @@ public class Requests {
             Day daySteps = new Day();
             daySteps.setDate(date);
             daySteps.setStepCount(sum);
-            results[i] = daySteps;
+            results.add(daySteps);
             i++;
         }
         return results;
@@ -102,4 +106,19 @@ public class Requests {
         this.startTimeMillis = startDate.getTimeInMillis();
         this.endTimeMillis = endDate.getTimeInMillis();
     }
+
+    public String getStatistics(ArrayList<Day> results) {
+        int max = 0;
+        int min = results.get(0).getStepCount();
+        int sum = 0;
+        int average = 0;
+        for (int i = 0; i < results.size(); i++) {
+            max = Math.max(results.get(i).getStepCount(), max);
+            min = Math.min(results.get(i).getStepCount(), min);
+            sum = sum + results.get(i).getStepCount();
+        }
+        average = sum / results.size();
+        return "max:" + max + "min:" + min + "average:" + average + "size:" + results.size() + "sum:" + sum;
+    }
+
 }

@@ -31,28 +31,25 @@
       integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO"
       crossorigin="anonymous"
     />
-    <!-- <link rel="stylesheet" type="text/css" href="../static/css/logbox.css" /> -->
-    <link rel="stylesheet" type="text/css" href="css/home.css" />
+    <link rel="stylesheet" type="text/css" href="css/home.css"/>
     <title>For login</title>
   </head>
 
   <body class="body">
-    <header>
-      <nav class="navbar navbar-expand-lg navbar-light bg-light">
-        <div class="container">
-          <a class="navbar-brand" href="/">HOME PAGE</a>
-          <a class="navbar-brand" href="/statics">STATISTICS</a>
-          <a class="navbar-brand" href="/logbox">LOGIN</a>
-          <a class="navbar-brand" href="/login">REGISTER</a>
-        </div>
-      </nav>
-    </header>
-
     <div class="wrapper">
       <!-- <img
       src=https://www.yourdictionary.com/images/definitions/lg/4761.footprint.jpg
       alt="footprint" /> -->
       <div class="a-container">
+        <header class="header">
+          <nav class="navbar navbar-expand-lg navbar-light bg-light">
+            <div class="container">
+              <a class="navbar-brand" href="/">HOME</a>
+              <a class="navbar-brand" href="/logbox">LOGIN</a>
+              <a class="navbar-brand" href="/register">REGISTER</a>
+            </div>
+          </nav>
+        </header>
         <!-- <form id="loger" method="post" name="myform"> -->
         <form id="loger" onsubmit="myFunction(); return false;">
           <!-- <div class="A">
@@ -79,9 +76,6 @@
               <!-- <input type="sumbit" id="log" name="" value="Login" onclick="validate()"/> -->
               <input type="submit" id="sub" name="" value="Login" />
               <a href="register.html" class="Registerhere">Register here</a>
-              <h2 th:text="${message}">AAA</h2>
-              <h2 th:text="${attr}">AAA</h2>
-
             </form>
             <!-- <span><b class="note">Note : </b>For this demo use following username and password. <br/><b class="valid">User Name : Formget<br/>Password : formget#123</b></span> -->
           </div>
@@ -102,11 +96,11 @@
           url: "http://localhost:8080/login",
           type: "POST",
           data: JSON.stringify(data), //this is serilizacija, server doesnt understand objects, have to send data to server as string
-          contentType: "application/json; charset-utf-8",
+          contentType: "application/json;charset-utf-8",
           dataType: "json",
-          success: function (response) {
-            alert(response.status);
-        },
+          success: function() {
+            loadData();
+          }
         });
       });
       function myFunction() {

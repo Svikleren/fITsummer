@@ -1,4 +1,5 @@
 html {
+  @media (min-width: 768px);
   box-sizing: border-box;
 }
 
@@ -13,6 +14,9 @@ body {
   background: #ccc;
   margin: 0;
 }
+.header {
+  background: rgb(50, 53, 59);
+}
 .navbar navbar-expand-lg navbar-light bg-light {
   display: flex;
   justify-content: center;
@@ -26,6 +30,7 @@ body {
   flex-direction: row;
   flex-wrap: wrap;
   color: black;
+  max-width: 1200px;
 }
 a {
   margin: 15px;
@@ -38,6 +43,7 @@ a {
   */
 img {
   width: 80%;
+  padding: 10px;
 }
 span {
   text-align: left;
@@ -81,7 +87,7 @@ span {
   max-width: 1200px;
   padding: 10px;
   /* width: 100%; */
-  width: 80%;
+  /* width: 80%; */
 }
 
 .wrapper > img {
@@ -91,6 +97,11 @@ span {
 .a-container {
   font-size: 0;
   margin: auto;
+  /* margin-left: auto; */
+  /* margin-left: auto; */
+  width: 80%;
+  justify-content: center;
+  /* display: flex; */
 }
 
 /*
@@ -99,27 +110,33 @@ span {
     flexbox, css grid or inline-block
   */
 .A {
-  width: 80%;
+  /* width: 100%; */
   font-size: initial;
-  display: inline-block;
   /* width: 33.33%; */
   /* padding: 1px; */
-  margin: auto;
+  /* margin: auto; */
+
+  justify-content: center;
 }
 
 .a-inner {
-  background: #eee;
+  /* background: #eee; */
   text-align: center;
   justify-content: center;
+  position: center;
+  border: none;
 }
 
 .A h2,
 .A p {
-  color: #999;
+  color: black;
   border: 10px transparent solid;
   margin: 1px 0;
   text-align: center;
   line-height: 1.6em;
+  /* display: inline-block; */
+  display: flex;
+  justify-content: center;
 }
 
 /*
@@ -182,7 +199,7 @@ span.buttonText {
   font-family: Arial, Helvetica, sans-serif;
 } */
 .loginbox,
-.simple-forms {
+.simple-form {
   width: 380px;
   height: 460px;
   background: black;
@@ -193,6 +210,7 @@ span.buttonText {
   transform: translate(-50%, -50%);
   box-sizing: border-box;
   padding: 70px 30px;
+  justify-content: center;
 }
 
 .footprint {
