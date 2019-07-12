@@ -16,7 +16,7 @@ public class Database {
     private PreparedStatement preparedStatement = null;
 
    //testa nolūkiem datubāzes izdrukāšana, kamēr taisam projektu
-    public static void main(String[] args) throws SQLException {
+/*    public static void main(String[] args) throws SQLException {
         Database ourDB = new Database();
 //        System.out.println(ourDB);
 //        System.out.println(ourDB.userExists("renata"));
@@ -27,7 +27,7 @@ public class Database {
         ourDB.registerNewUser("vita", "parole12");
         System.out.println(ourDB.userExists("vita"));
 //        System.out.println(ourDB.userExists("randomuser"));
-    }
+    }*/
 
     public Database() throws SQLException{
         logger.info("test printing");

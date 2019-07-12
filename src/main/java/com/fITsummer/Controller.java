@@ -13,6 +13,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributesModelMap;
 
 import java.io.*;
 import java.sql.SQLException;
+import java.util.ArrayList;
 
 import static org.springframework.web.bind.annotation.RequestMethod.GET;
 import static org.springframework.web.bind.annotation.RequestMethod.POST;
@@ -21,6 +22,8 @@ import static org.springframework.web.bind.annotation.RequestMethod.POST;
 public class Controller {
 
     User user;
+    ArrayList<Day> results;
+    String host = "http://localhost:8080";
     @Autowired
     Database db;
 
@@ -94,18 +97,18 @@ public class Controller {
 
     @PostMapping(value = "/graph")
     @ResponseBody
-    public String graph(Day[] results) {
+    public String graph(ArrayList<Day> results) {
         StringBuilder sb = new StringBuilder();
-        for (int i = 0; i < results.length; i++) {
-            sb.append(results[i].getDate());
+        for (int i = 0; i < results.size(); i++) {
+            sb.append(results.get(i).getDate());
             sb.append(": ");
-            sb.append(results[i].getStepCount() + "<br/>");
+            sb.append(results.get(i).getStepCount() + "<br/>");
         }
         sb.append("<a href='/'>Back</a>\n");
         return sb.toString();
     }
 
-    @RequestMapping(value = "/getTokens", method = GET)
+    @RequestMapping(value = "/getTokens", method = RequestMethod.GET)
     public String redirect() {
         String redirectUrl = "https://accounts.google.com/o/oauth2/v2/auth?client_id=123456648359-h291vabrnarv7ftjf2ff0p8vb740vm7l.apps.googleusercontent.com&response_type=code&scope=https://www.googleapis.com/auth/fitness.activity.read&redirect_uri=http://localhost:8080/code&access_type=offline&prompt=select_account";
         return "redirect:" + redirectUrl;
@@ -125,10 +128,10 @@ public class Controller {
                         clientSecrets.getDetails().getClientId(),
                         clientSecrets.getDetails().getClientSecret(),
                         code,
-                        "http://localhost:8080/code")  // Specify the same redirect URI that you use with your web
+                        host + "/code")  // Specify the same redirect URI that you use with your web
                         .execute();
         user.setAccessToken(tokenResponse.getAccessToken());
-        Day[] results = user.login();
+        results = user.login();
         return graph(results);
     }
 }
