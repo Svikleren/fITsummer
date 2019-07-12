@@ -79,6 +79,9 @@
               <!-- <input type="sumbit" id="log" name="" value="Login" onclick="validate()"/> -->
               <input type="submit" id="sub" name="" value="Login" />
               <a href="register.html" class="Registerhere">Register here</a>
+              <h2 th:text="${message}">AAA</h2>
+              <h2 th:text="${attr}">AAA</h2>
+
             </form>
             <!-- <span><b class="note">Note : </b>For this demo use following username and password. <br/><b class="valid">User Name : Formget<br/>Password : formget#123</b></span> -->
           </div>
@@ -99,11 +102,11 @@
           url: "http://localhost:8080/login",
           type: "POST",
           data: JSON.stringify(data), //this is serilizacija, server doesnt understand objects, have to send data to server as string
-          contentType: "application/json;charset-utf-8",
+          contentType: "application/json; charset-utf-8",
           dataType: "json",
-          success: function() {
-            loadData();
-          }
+          success: function (response) {
+            alert(response.status);
+        },
         });
       });
       function myFunction() {
