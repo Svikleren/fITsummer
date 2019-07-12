@@ -6,10 +6,14 @@ import com.google.api.client.googleapis.auth.oauth2.GoogleTokenResponse;
 import com.google.api.client.http.javanet.NetHttpTransport;
 import com.google.api.client.json.jackson2.JacksonFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+import org.springframework.web.servlet.mvc.support.RedirectAttributesModelMap;
 
 import java.io.*;
 import java.sql.SQLException;
+import java.util.ArrayList;
 
 import static org.springframework.web.bind.annotation.RequestMethod.GET;
 import static org.springframework.web.bind.annotation.RequestMethod.POST;
@@ -18,6 +22,8 @@ import static org.springframework.web.bind.annotation.RequestMethod.POST;
 public class Controller {
 
     User user;
+    ArrayList<Day> results;
+    String host = "http://localhost:8080";
     @Autowired
     Database db;
 
@@ -27,13 +33,17 @@ public class Controller {
     }
 
     @GetMapping("/logbox")
-    public String logbox() {
+    public String logbox( @ModelAttribute("message") String message,   @RequestParam(value = "attr", required = false) String attr, Model model) {
+        model.addAttribute("message","990");
+        System.out.println("message " + message);
+        System.out.println("attr " + attr);
+        model.addAttribute("message", message+"");
         return "logbox";
     }
 
     @GetMapping("/login")
     public String login() {
-        return "login";
+        return "register";
     }
 
     @GetMapping("/statics")
@@ -43,22 +53,23 @@ public class Controller {
 
 
     @PostMapping(value = "/login")
-    @ResponseBody
-    public String onLoginButtonClick(@RequestParam(value = "username", required = false) String username,
-                                     @RequestParam(value = "password", required = false) String password) throws SQLException {
-        if (username == null && password == null) {
-            return "<form action=''>\n" + "Username: <input type='text' name='username' value=''><br/>\n"
-                    + "Password:<input type='text' name='password' value=''><br/>\n"
-                    + "<input type='submit' value='Login'><br/>\n" + "<a href='/'>Back</a>\n";
+   // @ResponseBody
+    public String onLoginButtonClick(@RequestBody LoginData loginData,RedirectAttributes ra) throws SQLException {
+
+        if (loginData.getUser() == null && loginData.getPassword() == null) {
+            return "logbox";
         } else {
-            boolean checkUser = db.userExists(username);
-            boolean checkUserPass = db.userPwdCorrect(username, password);
+            boolean checkUser = db.userExists(loginData.getUser());
+            boolean checkUserPass = db.userPwdCorrect(loginData.getUser(), loginData.getPassword());
             if (checkUser && checkUserPass) {
-                User user = new User(username, password);
+                User user = new User(loginData.getUser(), loginData.getPassword());
                 this.user = user;
-                return "<a href='/getTokens'>Sign-in with Google<a><br/>\n";
+                return "redirect:/getTokens";
             } else if (checkUser == true & checkUserPass == false) {
-                return "Incorrect password" + "<a href='/'>Back</a>\n";
+                ra.addAttribute("attr", "attrVal");
+                ra.addFlashAttribute("message", "ufonogduafsnaosidlfs");
+                return  "redirect:/logbox";
+                //return "Incorrect password" + "<a href='/'>Back</a>\n";
             } else return "Incorrect username" + "<a href='/'>Back</a>\n";
         }
     }
@@ -86,18 +97,18 @@ public class Controller {
 
     @PostMapping(value = "/graph")
     @ResponseBody
-    public String graph(Day[] results) {
+    public String graph(ArrayList<Day> results) {
         StringBuilder sb = new StringBuilder();
-        for (int i = 0; i < results.length; i++) {
-            sb.append(results[i].getDate());
+        for (int i = 0; i < results.size(); i++) {
+            sb.append(results.get(i).getDate());
             sb.append(": ");
-            sb.append(results[i].getStepCount() + "<br/>");
+            sb.append(results.get(i).getStepCount() + "<br/>");
         }
         sb.append("<a href='/'>Back</a>\n");
         return sb.toString();
     }
 
-    @RequestMapping(value = "/getTokens", method = GET)
+    @RequestMapping(value = "/getTokens", method = RequestMethod.GET)
     public String redirect() {
         String redirectUrl = "https://accounts.google.com/o/oauth2/v2/auth?client_id=123456648359-h291vabrnarv7ftjf2ff0p8vb740vm7l.apps.googleusercontent.com&response_type=code&scope=https://www.googleapis.com/auth/fitness.activity.read&redirect_uri=http://localhost:8080/code&access_type=offline&prompt=select_account";
         return "redirect:" + redirectUrl;
@@ -117,10 +128,10 @@ public class Controller {
                         clientSecrets.getDetails().getClientId(),
                         clientSecrets.getDetails().getClientSecret(),
                         code,
-                        "http://localhost:8080/code")  // Specify the same redirect URI that you use with your web
+                        host + "/code")  // Specify the same redirect URI that you use with your web
                         .execute();
         user.setAccessToken(tokenResponse.getAccessToken());
-        Day[] results = user.login();
+        results = user.login();
         return graph(results);
     }
 }
