@@ -24,6 +24,7 @@ public class Requests {
     GoogleCredential credential;
     Fitness fitness;
     AggregateResponse response;
+    int[] stats = new int[4];
 
     public Requests(User user) {
         this.user = user;
@@ -107,7 +108,7 @@ public class Requests {
         this.endTimeMillis = endDate.getTimeInMillis();
     }
 
-    public String getStatistics(ArrayList<Day> results) {
+    public int[] getStatistics(ArrayList<Day> results) {
         int max = 0;
         int min = results.get(0).getStepCount();
         int sum = 0;
@@ -118,7 +119,12 @@ public class Requests {
             sum = sum + results.get(i).getStepCount();
         }
         average = sum / results.size();
-        return "max:" + max + "min:" + min + "average:" + average + "size:" + results.size() + "sum:" + sum;
+        stats[0] = max;
+        stats[1] = min;
+        stats[2] = average;
+        stats[3] = sum;
+
+        return stats;
     }
 
 }

@@ -1,6 +1,5 @@
 package com.fITsummer;
 
-import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -32,7 +31,7 @@ public class ControllerTest {
 
     @Test
     public void getMaxDate1() {
-        String expected = "2019-07-12"; //this string needs to be changed every day to todays date
+        String expected = "2019-07-19"; //this string needs to be changed every day to todays date
         String result = controller.getMaxDate();
         assertEquals("check max date", expected, result);
     }

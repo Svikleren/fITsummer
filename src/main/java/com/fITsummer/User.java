@@ -8,6 +8,11 @@ public class User {
     private String password;
     private String accessToken;
     ArrayList<Day> results = new ArrayList<>();
+    int[] stats = new int[4];
+
+    public void setStats(int[] stats) {
+        this.stats = stats;
+    }
 
     public User(String login, String password) {
         this.username = login; //store login
@@ -17,12 +22,14 @@ public class User {
     public ArrayList<Day> login() throws IOException {
         Requests google = new Requests(this);
         results = google.requestData();
+        stats = google.getStatistics(results);
         return results;
     }
 
     public ArrayList<Day> login(Long startTimeMillis, Long endTimeMillis) throws IOException {
         Requests google = new Requests(this, startTimeMillis, endTimeMillis);
         results = google.requestData();
+        stats = google.getStatistics(results);
         return results;
     }
 
@@ -56,5 +63,9 @@ public class User {
 
     public void setResults(ArrayList<Day> results) {
         this.results = results;
+    }
+
+    public int[] getStats() {
+        return stats;
     }
 }

@@ -1,9 +1,7 @@
 package com.fITsummer;
 
-import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
-import org.springframework.web.bind.annotation.RequestParam;
 
 import java.util.ArrayList;
 
@@ -42,7 +40,12 @@ public class RequestsTest {
         int expMin = 10;
         int expSum = 100;
         int expAv = 25;
-        String expResult = "max:" + expMax + "min:" + expMin + "average:" + expAv + "size:" + 4 + "sum:" + expSum;
+        int[] expResult = new int[4];
+        expResult[0] = expMax;
+        expResult[1] = expMin;
+        expResult[2] = expAv;
+        expResult[3] = expSum;
+
         assertEquals("check statistics string", expResult, req.getStatistics(list));
     }
 }

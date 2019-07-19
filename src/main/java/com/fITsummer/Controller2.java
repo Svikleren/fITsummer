@@ -72,6 +72,7 @@ public class Controller2 {
 
         StringBuilder sb = new StringBuilder();
         String date = getMaxDate();
+        int[] stats = new int[4];
 
         if ((from != null & to != null) & (from != "" & to != "")) {
             Long startTime = 0L;
@@ -79,14 +80,17 @@ public class Controller2 {
             startTime = convertStringToDate(from).getTimeInMillis();
             endTime = convertStringToDate(to).getTimeInMillis() + 86400000;
             results = user.login(startTime, endTime);
+            stats = user.getStats();
         } else {
             results = user.login();
+            stats = user.getStats();
         }
         if (chart == null || chart == "") chart = "Line";
         sb.append("<!DOCTYPE html>\n" +
                 "<html>\n" +
                 " <head>\n" +
                 "  <meta charset=\"utf-8\">\n" +
+                "<a href='/'>Back to homepage</a>" +
                 "  <title>Steps history</title>\n" +
                 "  <script src=\"https://www.google.com/jsapi\"></script>\n" +
                 "  <script>\n" +
@@ -108,10 +112,19 @@ public class Controller2 {
                 "    chart.draw(data, options);\n" +
                 "   }\n" +
                 "  </script>\n" +
+                "<style>\n" +
+                "span.b {\n" +
+                "  display: inline-block;\n" +
+                "  width: 40%;\n" +
+                "  height: 40%;\n" +
+                "  padding: 5px;\n" +
+                "  vertical-align:top;\n" +
+                "}\n" +
+                "</style>" +
                 " </head>\n" +
                 " <body>\n" +
                 "  <div id=\"steps\" style=\"width: 100%; height: 400px;\"></div>\n" +
-                "<form>" +
+                "<span class=\"b\"> <form>" +
                 "<p>Date from: <input type=\"date\" name=\"from\" max=\"" + date + "\">" +
                 "Date to: <input type=\"date\" name=\"to\" max=\"" + date + "\">" +
                 "   <p><b>Chart style</b></p>\n" +
@@ -119,11 +132,19 @@ public class Controller2 {
                 "    <p><input name=\"chart\" type=\"radio\" value=\"Bar\">Bar chart</p>\n" +
                 "    <p><input name=\"chart\" type=\"radio\" value=\"Column\">Column chart</p>\n" +
                 "    <p><input type=\"submit\" value=\"Request\"></p>\n" +
-                "  </form> " +
+                "  </form> </span>" +
+                "<span  class=\"b\"><form>\n" +
+                "<table border=\"1\" cellpadding=\"5\">\n" +
+                "  <caption><b>Statistics for selected period</b></caption>\n" +
+                "      <tr><td>Max steps count</td><td>" + stats[0] + "</td></tr>\n" +
+                "      <tr><td>Min steps count</td><td>" + stats[1] + "</td></tr>\n" +
+                "      <tr><td>Average steps count</td><td>" + stats[2] + "</td></tr>\n" +
+                "      <tr><td>All steps count</td><td>" + stats[3] + "</td></tr>\n" +
+                "  </table>\n" +
+                "</form>\n" +
+                "</span>" +
                 " </body>\n" +
                 " </html>");
-
-        sb.append("<a href='/'>Back</a>\n");
         return sb.toString();
     }
 
