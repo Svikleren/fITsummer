@@ -90,7 +90,7 @@ public class Controller2 {
                 "<html>\n" +
                 " <head>\n" +
                 "  <meta charset=\"utf-8\">\n" +
-                "<a href='/'>Back to homepage</a>" +
+                "<a href='/'>Logout</a>" +
                 "  <title>Steps history</title>\n" +
                 "  <script src=\"https://www.google.com/jsapi\"></script>\n" +
                 "  <script>\n" +
