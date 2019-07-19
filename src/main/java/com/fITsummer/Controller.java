@@ -9,15 +9,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
-import org.springframework.web.servlet.mvc.support.RedirectAttributesModelMap;
 
 import java.io.*;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Calendar;
-
-import static org.springframework.web.bind.annotation.RequestMethod.GET;
-import static org.springframework.web.bind.annotation.RequestMethod.POST;
 
 @org.springframework.stereotype.Controller
 public class Controller {
@@ -43,68 +39,105 @@ public class Controller {
     }
 
     @GetMapping("/register")
-    public String login() {
+    public String login(@ModelAttribute("message") String message, @RequestParam(value = "attr", required = false) String attr, Model model) {
+        model.addAttribute("message", "990");
+        System.out.println("message " + message);
+        System.out.println("attr " + attr);
+        model.addAttribute("message", message + "");
         return "register";
     }
 
-    @GetMapping("/statics")
-    public String statics() {
-        return "statics";
-    }
-
-
     @PostMapping(value = "/login")
-    // @ResponseBody
-    public String onLoginButtonClick(@RequestBody LoginData loginData, RedirectAttributes ra) throws SQLException {
-
+    @ResponseBody
+    public LoginResponse onLoginButtonClick(@RequestBody LoginData loginData, RedirectAttributes ra) throws SQLException {
         if (loginData.getUser() == null && loginData.getPassword() == null) {
-            return "logbox";
+            return new LoginResponse(false, "Invalid Credentials", null);
         } else {
             boolean checkUser = db.userExists(loginData.getUser());
             boolean checkUserPass = db.userPwdCorrect(loginData.getUser(), loginData.getPassword());
             if (checkUser && checkUserPass) {
                 User user = new User(loginData.getUser(), loginData.getPassword());
                 this.user = user;
-                return "redirect:/getTokens";
+                return new LoginResponse(true, "", "/getTokens");
             } else if (checkUser == true & checkUserPass == false) {
-                ra.addAttribute("attr", "attrVal");
-                ra.addFlashAttribute("message", "ufonogduafsnaosidlfs");
-                return "redirect:/logbox";
-                //return "Incorrect password" + "<a href='/'>Back</a>\n";
-            } else return "Incorrect username" + "<a href='/'>Back</a>\n";
+                return new LoginResponse(false, "Invalid password", null);
+            } else {
+                return new LoginResponse(false, "Invalid username", null);
+            }
         }
     }
 
     @PostMapping(value = "/register")
     @ResponseBody
-    public String onRegisterButtonClick(@RequestParam(value = "username", required = false) String username,
-                                        @RequestParam(value = "password", required = false) String password) throws SQLException {
-        if (username == null && password == null) {
-            return "<form action=''>\n" + "New username: <input type='text' name='username' value=''><br/>\n"
-                    + "New password:<input type='text' name='password' value=''><br/>\n"
-                    + "<input type='submit' value='Register'><br/>\n" + "<a href='/'>Back</a>\n";
-        } else if (password == null) {
-            return "Empty password!" + "<a href='/'>Back</a>\n";
-        } else {
-            boolean checkUser = db.userExists(username);
-            if (checkUser == false) {
-                User user = new User(username, password);
-                this.user = user;
-                db.registerNewUser(username, password);
-                return "<a href='/getTokens'>Sign-in with Google<a><br/>\n";
-            } else return "This username already exists" + "<a href='/'>Back</a>\n";
-        }
+    public LoginResponse onRegisterButtonClick(@RequestBody LoginData loginData, RedirectAttributes ra) throws SQLException {
+        boolean checkUser = db.userExists(loginData.getUser());
+        if (checkUser == false) {
+            User user = new User(loginData.getUser(), loginData.getPassword());
+            this.user = user;
+            db.registerNewUser(loginData.getUser(), loginData.getPassword());
+            return new LoginResponse(true, "", "/getTokens");
+        } else return new LoginResponse(false, "Username already exists", null);
     }
 
-    @PostMapping(value = "/graph")
+    @RequestMapping(value = "/graph")
     @ResponseBody
-    public String graph(ArrayList<Day> results) {
+    public String graph(@RequestParam(value = "from", required = false) String from,
+                        @RequestParam(value = "to", required = false) String to,
+                        @RequestParam(value = "chart", required = false) String chart) throws IOException {
+
         StringBuilder sb = new StringBuilder();
-        for (int i = 0; i < results.size(); i++) {
-            sb.append(results.get(i).getDate());
-            sb.append(": ");
-            sb.append(results.get(i).getStepCount() + "<br/>");
+        String date = getMaxDate();
+
+        if ((from != null & to != null) & (from != "" & to != "")) {
+            Long startTime = 0L;
+            Long endTime = 0L;
+            startTime = convertStringToDate(from).getTimeInMillis();
+            endTime = convertStringToDate(to).getTimeInMillis() + 86400000;
+            results = user.login(startTime, endTime);
+        } else {
+            results = user.login();
         }
+        if (chart == null || chart == "") chart = "Line";
+        sb.append("<!DOCTYPE html>\n" +
+                "<html>\n" +
+                " <head>\n" +
+                "  <meta charset=\"utf-8\">\n" +
+                "  <title>Steps history</title>\n" +
+                "  <script src=\"https://www.google.com/jsapi\"></script>\n" +
+                "  <script>\n" +
+                "   google.load(\"visualization\", \"1\", {packages:[\"corechart\"]});\n" +
+                "   google.setOnLoadCallback(drawChart);\n" +
+                "   function drawChart() {\n" +
+                "    var data = google.visualization.arrayToDataTable([\n" +
+                "     ['Day', 'Steps', { role: 'annotation' }],\n");
+        for (int i = 0; i < results.size(); i++) {
+            sb.append("     ['" + results.get(i).getDate() + "'," + results.get(i).getStepCount() + "," + results.get(i).getStepCount() + "],\n");
+        }
+        sb.append("    ]);\n" +
+                "    var options = {\n" +
+                "     title: 'Steps history: " + results.get(0).getDate() + " - " + results.get(results.size() - 1).getDate() + "',\n" +
+                "     hAxis: {title: 'Day'},\n" +
+                "     vAxis: {title: 'Steps'}\n" +
+                "    };\n" +
+                "    var chart = new google.visualization." + chart + "Chart(document.getElementById('steps'));\n" +
+                "    chart.draw(data, options);\n" +
+                "   }\n" +
+                "  </script>\n" +
+                " </head>\n" +
+                " <body>\n" +
+                "  <div id=\"steps\" style=\"width: 100%; height: 400px;\"></div>\n" +
+                "<form>" +
+                "<p>Date from: <input type=\"date\" name=\"from\" max=\"" + date + "\">" +
+                "Date to: <input type=\"date\" name=\"to\" max=\"" + date + "\">" +
+                "   <p><b>Chart style</b></p>\n" +
+                "    <p><input name=\"chart\" type=\"radio\" value=\"Line\" checked>Line chart</p>\n" +
+                "    <p><input name=\"chart\" type=\"radio\" value=\"Bar\">Bar chart</p>\n" +
+                "    <p><input name=\"chart\" type=\"radio\" value=\"Column\">Column chart</p>\n" +
+                "    <p><input type=\"submit\" value=\"Request\"></p>\n" +
+                "  </form> " +
+                " </body>\n" +
+                " </html>");
+
         sb.append("<a href='/'>Back</a>\n");
         return sb.toString();
     }
@@ -116,7 +149,6 @@ public class Controller {
     }
 
     @RequestMapping(value = "/code")
-    @ResponseBody
     public String code(@RequestParam String code) throws IOException {
         GoogleClientSecrets clientSecrets = GoogleClientSecrets.load(
                 JacksonFactory.getDefaultInstance(), new FileReader("client_secrets.json"));
@@ -129,11 +161,10 @@ public class Controller {
                         clientSecrets.getDetails().getClientId(),
                         clientSecrets.getDetails().getClientSecret(),
                         code,
-                        host + "/code")  // Specify the same redirect URI that you use with your web
+                        host + "/code")
                         .execute();
         user.setAccessToken(tokenResponse.getAccessToken());
-        results = user.login();
-        return graph(results);
+        return "redirect:" + host + "/graph";
     }
 
     public String getMaxDate() {

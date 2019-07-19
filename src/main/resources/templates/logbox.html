@@ -1,111 +1,106 @@
 <!DOCTYPE html>
 <html
-  lang="en"
-  xmlns="http://www.w3.org/1999/xhtml"
-  xmlns:th="http://www.thymeleaf.org"
+        lang="en"
+        xmlns="http://www.w3.org/1999/xhtml"
+        xmlns:th="http://www.thymeleaf.org"
 >
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
-
+<head>
+    <meta charset="UTF-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <meta http-equiv="X-UA-Compatible" content="ie=edge"/>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
     <script
-      src="https://code.jquery.com/jquery-3.3.1.min.js"
-      crossorigin="anonymous"
+            src="https://code.jquery.com/jquery-3.3.1.min.js"
+            crossorigin="anonymous"
     ></script>
     <script
-      src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js"
-      integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49"
-      crossorigin="anonymous"
+            src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js"
+            integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49"
+            crossorigin="anonymous"
     ></script>
     <script
-      src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js"
-      integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy"
-      crossorigin="anonymous"
+            src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js"
+            integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy"
+            crossorigin="anonymous"
     ></script>
-
     <link
-      rel="stylesheet"
-      href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css"
-      integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO"
-      crossorigin="anonymous"
+            rel="stylesheet"
+            href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css"
+            integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO"
+            crossorigin="anonymous"
     />
     <link rel="stylesheet" type="text/css" href="css/home.css"/>
     <title>For login</title>
-  </head>
+</head>
 
-  <body class="body">
-    <div class="wrapper">
-      <!-- <img
-      src=https://www.yourdictionary.com/images/definitions/lg/4761.footprint.jpg
-      alt="footprint" /> -->
-      <div class="a-container">
+<body class="body">
+<div class="wrapper">
+    <!-- <img
+    src=https://www.yourdictionary.com/images/definitions/lg/4761.footprint.jpg
+    alt="footprint" /> -->
+    <div class="a-container">
         <header class="header">
-          <nav class="navbar navbar-expand-lg navbar-light bg-light">
-            <div class="container">
-              <a class="navbar-brand" href="/">HOME</a>
-              <a class="navbar-brand" href="/logbox">LOGIN</a>
-              <a class="navbar-brand" href="/register">REGISTER</a>
-            </div>
-          </nav>
+            <nav class="navbar navbar-expand-lg navbar-light bg-light">
+                <div class="container">
+                    <a class="navbar-brand" href="/">HOME</a>
+                    <a class="navbar-brand" href="/logbox">LOGIN</a>
+                    <a class="navbar-brand" href="/register">REGISTER</a>
+                </div>
+            </nav>
         </header>
-        <!-- <form id="loger" method="post" name="myform"> -->
-        <form id="loger" onsubmit="myFunction(); return false;">
-          <!-- <div class="A">
-          <div class="a-inner"></div>
-        </div> -->
-
-          <div class="loginbox">
-            <h1>Login Here</h1>
-            <form>
-              <!-- <p>Username</p> -->
-              <input
-                type="text"
-                id="user"
-                name=""
-                placeholder="Enter Username:"
-              />
-              <!-- <p>Password</p> -->
-              <input
-                type="password"
-                id="password"
-                name=""
-                placeholder="Enter Password:"
-              />
-              <!-- <input type="sumbit" id="log" name="" value="Login" onclick="validate()"/> -->
-              <input type="submit" id="sub" name="" value="Login" />
-              <a href="register.html" class="Registerhere">Register here</a>
-            </form>
-            <!-- <span><b class="note">Note : </b>For this demo use following username and password. <br/><b class="valid">User Name : Formget<br/>Password : formget#123</b></span> -->
-          </div>
+        <form id="loger" onsubmit="login(); return false;">
+            <div class="loginbox">
+                <h1>Login Here</h1>
+                <form>
+                    <input
+                            type="text"
+                            id="user"
+                            name=""
+                            placeholder="Enter Username:"
+                    />
+                    <input
+                            type="password"
+                            id="password"
+                            name=""
+                            placeholder="Enter Password:"
+                    />
+                    <input type="submit" id="sub" name="" value="Login"/>
+                    <a href="register.html" class="Registerhere">Register here</a>
+                    <h5 id="loginMessage"></h5>
+                </form>
+            </div>
         </form>
-      </div>
     </div>
-    <script>
-      $("#sub").click(function() {
+</div>
+<script>
+        function login() {
         var name = $("#user").val();
         var password = $("#password").val();
         var data = { user: name, password: password };
-        //   $.post("localhost:8080/login", data, function() {
-        //     loadData();
-        //   });
         console.log(data);
 
         $.ajax({
           url: "http://localhost:8080/login",
           type: "POST",
-          data: JSON.stringify(data), //this is serilizacija, server doesnt understand objects, have to send data to server as string
-          contentType: "application/json;charset-utf-8",
-          dataType: "json",
-          success: function() {
-            loadData();
-          }
-        });
-      });
-      function myFunction() {
-        return false;
+          data: JSON.stringify(data),
+          contentType: "application/json; charset-utf-8",
+
+          success: function (response) {
+            if(response.success){
+               $("#loginMessage").text(response.message);
+               navigate(response.forwardTo);
+            } else {
+              $("#loginMessage").text(response.message);
+            } //if else end
+          }, //success function end
+        }); //ajax end
+      }; //login function end
+
+      function navigate(url){
+        window.location.href = url;
       }
-    </script>
-  </body>
+
+
+</script>
+</body>
 </html>
