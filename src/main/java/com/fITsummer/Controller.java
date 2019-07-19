@@ -15,7 +15,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Calendar;
 
-@org.springframework.stereotype.Controller
+//@org.springframework.stereotype.Controller
 public class Controller {
 
     User user;

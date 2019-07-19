@@ -12,7 +12,7 @@ import java.io.*;
 import java.sql.SQLException;
 import java.util.*;
 
-//@org.springframework.stereotype.Controller
+@org.springframework.stereotype.Controller
 public class Controller2 {
 
     User user;
