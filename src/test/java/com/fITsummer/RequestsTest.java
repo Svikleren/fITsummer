@@ -45,7 +45,10 @@ public class RequestsTest {
         expResult[1] = expMin;
         expResult[2] = expAv;
         expResult[3] = expSum;
-
-        assertEquals("check statistics string", expResult, req.getStatistics(list));
+        req.getStatistics(list);
+        assertEquals("check statistics string", expResult[0], req.stats[0]);
+        assertEquals("check statistics string", expResult[1], req.stats[1]);
+        assertEquals("check statistics string", expResult[2], req.stats[2]);
+        assertEquals("check statistics string", expResult[3], req.stats[3]);
     }
 }
