@@ -1,13 +1,25 @@
 package com.fITsummer;
 
+import javax.persistence.*;
 import java.io.IOException;
 import java.util.ArrayList;
 
+@Entity
+@Table(name = "user_info")
 public class User {
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    private int id;
+    @Column(columnDefinition = "varchar(45)", nullable = false)
     private String username;
+    @Column(columnDefinition = "varchar(60)", nullable = false)
     private String password;
+    @Transient
     private String accessToken;
+
+    @Transient
     ArrayList<Day> results = new ArrayList<>();
+    @Transient
     int[] stats = new int[4];
 
     public void setStats(int[] stats) {
@@ -17,6 +29,10 @@ public class User {
     public User(String login, String password) {
         this.username = login; //store login
         this.password = password; //store password
+    }
+
+    public User() {
+
     }
 
     public ArrayList<Day> login() throws IOException {

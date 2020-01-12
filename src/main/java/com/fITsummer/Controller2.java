@@ -18,13 +18,19 @@ public class Controller2 {
     User user;
     ArrayList<Day> results;
     String host = "http://localhost:8080";
+/*    @Autowired
+    Database db;*/
+
     @Autowired
-    Database db;
+    DatabaseJpa db;
 
     @GetMapping("/")
     public String home() {
         return "index.html";
     }
+
+    @Autowired
+    UserRepository userRepo;
 
     @RequestMapping(value = "/login", method = RequestMethod.GET)
     public String onLoginButtonClick(@RequestParam(value = "username", required = false) String username,
@@ -33,6 +39,8 @@ public class Controller2 {
             return "login.html";
         } else {
             username = username.toLowerCase();
+
+            //====================================== funkcija userExists, kurai vajadzetu but atseviska klase un dot boolean mainigajam checkUser
             boolean checkUser = db.userExists(username);
             boolean checkUserPass = db.userPwdCorrect(username, password);
             if (checkUser && checkUserPass) {
@@ -58,7 +66,7 @@ public class Controller2 {
             if (checkUser == false) {
                 User user = new User(username, password);
                 this.user = user;
-                db.registerNewUser(username, password);
+                //userRepo.save(user); //te ari vajadzetu but atseviskai metodei kas izsauco to repo.save
                 return redirect();
             } else return "invalidlogin.html";
         }
@@ -197,4 +205,22 @@ public class Controller2 {
         calendarDate.set(year, month, day, 3, 0);
         return calendarDate;
     }
+
+/*    public boolean userExists(String username){
+        List<User> rs=userRepo.findByUsername(username);
+        if (!rs.isEmpty()) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    public boolean userPwdCorrect(String username, String password){
+        List<User> rs=userRepo.findByUsername(username);
+        if (!rs.isEmpty()&&rs.get(rs.size()-1).getPassword().equals(password)) {
+            return true;
+        } else {
+            return false;
+        }
+    }*/
 }

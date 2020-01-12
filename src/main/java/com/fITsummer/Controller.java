@@ -1,3 +1,4 @@
+
 package com.fITsummer;
 
 import com.google.api.client.googleapis.auth.oauth2.GoogleAuthorizationCodeTokenRequest;
@@ -22,7 +23,7 @@ public class Controller {
     ArrayList<Day> results;
     String host = "http://localhost:8080";
     @Autowired
-    Database db;
+    DatabaseJpa db;
 
     @GetMapping("/")
     public String home() {
@@ -74,7 +75,7 @@ public class Controller {
         if (checkUser == false) {
             User user = new User(loginData.getUser(), loginData.getPassword());
             this.user = user;
-            db.registerNewUser(loginData.getUser(), loginData.getPassword());
+            db.registerNewUser(user);
             return new LoginResponse(true, "", "/getTokens");
         } else return new LoginResponse(false, "Username already exists", null);
     }

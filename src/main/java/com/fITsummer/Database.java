@@ -1,3 +1,4 @@
+/*
 package com.fITsummer;
 
 import org.slf4j.Logger;
@@ -15,7 +16,7 @@ public class Database {
     protected Connection conn = null;
     private final String DB_URL = "jdbc:mysql://127.0.0.1:3306/?autoReconnect=true&useSSL=false&characterEncoding=utf8&serverTimezone=GMT ";
     private final String USER = "root";
-    private final String PASS = "admin";
+    private final String PASS = "Osmbmakdsgr1!";
     private PreparedStatement preparedStatement = null;
 
 
@@ -83,4 +84,4 @@ public class Database {
         logger.info(i + "users inserted" + password);
     }
 
-}//end main
+}//end main*/
